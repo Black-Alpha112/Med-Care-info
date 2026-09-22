@@ -21,6 +21,6 @@ export default defineConfig(async ({ mode }) => {
     plugins,
     envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
     define: processEnvDefines,
-    base: "Med-Care-info"
+    base: "/Med-Care-info",
   };
 })
