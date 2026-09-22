@@ -1,6 +1,6 @@
 {
   "name": "vite-react-ts-fullstack",
-  "homepage": "https://med-care-info.vercel.app",
+  "homepage": ".",
   "private": true,
   "version": "0.0.0",
   "type": "module",
