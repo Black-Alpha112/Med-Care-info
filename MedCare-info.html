@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MedCare</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#eef5f4;--card:#fff;--ink:#0f2d2b;--mut:#5b7573;--line:#d6e5e2;--pri:#0d9488;--ok:#15803d;--okb:#dcfce7;--hi:#b91c1c;--hib:#fee2e2;--lo:#b45309;--lob:#fef3c7;--sh:0 8px 24px rgba(13,60,56,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1716;--card:#122624;--ink:#e3f1ef;--mut:#8fb0ac;--line:#23413e;--pri:#2dd4bf;--ok:#86efac;--okb:#14532d;--hi:#fca5a5;--hib:#7f1d1d;--lo:#fcd34d;--lob:#78350f;--sh:0 8px 24px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#0a1716;--card:#122624;--ink:#e3f1ef;--mut:#8fb0ac;--line:#23413e;--pri:#2dd4bf;--ok:#86efac;--okb:#14532d;--hi:#fca5a5;--hib:#7f1d1d;--lo:#fcd34d;--lob:#78350f;--sh:0 8px 24px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cairo","Segoe UI",Tahoma,system-ui,sans-serif;line-height:1.6}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;position:absolute;inset-inline:0;top:env(safe-area-inset-top,0px);z-index:3;color:#fff}
+.logo{font-weight:800;font-size:22px;letter-spacing:.3px}
+button{font:inherit;cursor:pointer}
+.ib{border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff;border-radius:99px;padding:6px 14px;backdrop-filter:blur(6px);margin-inline-start:6px}
+.hero{position:relative;overflow:hidden;color:#fff;padding:84px 20px 90px;text-align:center;background:linear-gradient(135deg,#0b3b3a,#0f766e 55%,#0e7490)}
+.hero h1{margin:0 0 6px;font-size:clamp(26px,5vw,42px);font-weight:800;position:relative}
+.hero p{margin:0 auto;max-width:520px;opacity:.9;position:relative}
+.bl{position:absolute;border-radius:50%;filter:blur(40px);opacity:.45;animation:fl 9s ease-in-out infinite alternate}
+.b1{width:260px;height:260px;background:#2dd4bf;top:-80px;inset-inline-start:-60px}
+.b2{width:300px;height:300px;background:#38bdf8;bottom:-140px;inset-inline-end:-80px;animation-delay:-4s}
+@keyframes fl{to{transform:translate(40px,30px) scale(1.15)}}
+.ecg{position:absolute;bottom:18px;left:0;width:100%;height:48px;opacity:.7}
+.ecg path{fill:none;stroke:#99f6e4;stroke-width:2;stroke-dasharray:900;stroke-dashoffset:900;animation:dr 3.6s linear infinite}
+@keyframes dr{to{stroke-dashoffset:0}}
+main{max-width:1000px;margin:-44px auto 0;padding:0 16px 30px;display:grid;gap:16px;position:relative}
+.tabs{display:flex;gap:6px;background:var(--card);padding:6px;border-radius:14px;box-shadow:var(--sh)}
+.tabs button{flex:1;border:0;background:none;color:var(--mut);padding:10px;border-radius:10px;font-weight:600;transition:.25s}
+.tabs button.on{background:var(--pri);color:#fff}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--sh)}
+.drop{display:flex;flex-direction:column;align-items:center;gap:6px;border:2px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--mut);cursor:pointer;transition:.2s;margin-bottom:12px}
+.drop:hover,.drop.dg{border-color:var(--pri);background:rgba(13,148,136,.07);transform:translateY(-2px)}
+.drop svg{width:34px;height:34px;stroke:var(--pri);fill:none;stroke-width:1.7}
+#pv{max-height:150px;max-width:100%;border-radius:10px}
+textarea,input[type=text],input[type=password]{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+textarea{min-height:150px;direction:ltr;text-align:left;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+:is(button,textarea,input,label):focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 16px;border-radius:10px;transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.p{background:var(--pri);color:#fff;border-color:var(--pri);font-weight:600}
+.btn:disabled{opacity:.6}
+.mut{color:var(--mut);font-size:13px}
+.sum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sum button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:12px;box-shadow:var(--sh);transition:.2s}
+.sum button.on{border-color:var(--pri);box-shadow:0 0 0 2px var(--pri)}
+.sum b{display:block;font-size:28px;line-height:1.2}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.Normal{background:var(--okb);color:var(--ok)}.High{background:var(--hib);color:var(--hi)}.Low{background:var(--lob);color:var(--lo)}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-top:12px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px;box-shadow:var(--sh);transition:transform .2s}
+.c:hover{transform:translateY(-3px)}
+.c .t{display:flex;justify-content:space-between;gap:8px}
+.c small{display:block;color:var(--mut);font-size:12px}
+.v{font-size:26px;font-weight:800}.u{font-size:13px;color:var(--mut);font-weight:400}
+.num{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.bar{position:relative;height:8px;border-radius:9px;background:var(--line);direction:ltr}
+.bar .z{position:absolute;left:25%;width:50%;top:0;bottom:0;background:var(--okb);border-radius:9px}
+.bar .m{position:absolute;top:-4px;left:var(--p);width:16px;height:16px;margin-left:-8px;border-radius:50%;border:3px solid var(--card);animation:mk .9s cubic-bezier(.2,.8,.2,1) both}
+.m.Normal{background:var(--ok)}.m.High{background:var(--hi)}.m.Low{background:var(--lo)}
+@keyframes mk{from{left:25%}}
+.rise{animation:ri .5s both;animation-delay:calc(var(--i,0)*45ms)}
+@keyframes ri{from{opacity:0;transform:translateY(14px)}}
+.tw{overflow-x:auto;margin-top:12px}table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:start;white-space:nowrap}th{color:var(--mut);font-size:13px}
+.tb{display:flex;gap:8px;margin-bottom:0}.tb input{flex:1}
+.rx{display:grid;gap:4px;font-size:14px}
+.chip{font-size:12px;background:rgba(13,148,136,.12);color:var(--pri);padding:2px 10px;border-radius:99px;font-weight:600;height:fit-content}
+.sp{width:16px;height:16px;border:2px solid var(--pri);border-top-color:transparent;border-radius:50%;display:inline-block;animation:sn .7s linear infinite;vertical-align:middle;margin-inline-end:6px}
+@keyframes sn{to{transform:rotate(360deg)}}
+.pk{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;cursor:pointer}
+.pk input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0}
+.pvw{position:relative;display:inline-block;overflow:hidden;border-radius:10px;line-height:0}
+.pvw.scan::after{content:"";position:absolute;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#2dd4bf,transparent);box-shadow:0 0 14px #2dd4bf;animation:sc 1.3s ease-in-out infinite alternate}
+@keyframes sc{from{top:0}to{top:calc(100% - 3px)}}
+.hero{background-size:200% 200%;animation:gs 14s ease infinite}@keyframes gs{50%{background-position:100% 50%}}
+.fl{position:absolute;bottom:-30px;opacity:0;pointer-events:none;animation:up linear infinite}
+@keyframes up{10%{opacity:.5}90%{opacity:.3}to{transform:translateY(-440px) rotate(40deg);opacity:0}}
+.btn:active{transform:scale(.95)}
+.btn.p.busy{background-image:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);background-size:200% 100%;animation:shm 1.1s linear infinite}
+@keyframes shm{to{background-position:-200% 0}}
+.badge.High{animation:pl 2s infinite}@keyframes pl{50%{box-shadow:0 0 0 5px rgba(220,38,38,.18)}}
+.logo{display:flex;align-items:center;gap:6px}.logo i{font-style:normal;display:inline-block;animation:hb 1.6s infinite}@keyframes hb{15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,400px);box-shadow:var(--sh);animation:pop .3s}
+dialog::backdrop{background:rgba(5,20,19,.55);backdrop-filter:blur(3px)}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(12px)}}
+dialog input{margin:5px 0}dialog h3{margin:0 0 8px}
+.sv{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}.sv small{display:block;color:var(--mut)}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,120px);background:var(--pri);color:#fff;padding:10px 20px;border-radius:99px;z-index:9;transition:.4s cubic-bezier(.2,.9,.3,1.3)}#toast.on{transform:translate(-50%,0)}
+.ft{text-align:center;font-weight:800;font-size:15px;letter-spacing:.5px;direction:ltr;color:var(--mut);padding:20px 16px calc(28px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);max-width:1000px;margin:10px auto 0}
+[hidden]{display:none!important}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
+.hero h1{animation:ri .9s both}.hero p{animation:ri .9s .18s both}
+.gb{animation:ri .5s both,bc 7s linear .5s infinite}@keyframes bc{33%{border-color:#38bdf8;box-shadow:0 8px 30px rgba(56,189,248,.18)}66%{border-color:#a78bfa;box-shadow:0 8px 30px rgba(167,139,250,.18)}}
+.drop svg{animation:bn 2.4s ease-in-out infinite}@keyframes bn{50%{transform:translateY(-6px)}}
+.btn,.ib,.sum button{position:relative;overflow:hidden}
+.rp{position:absolute;border-radius:50%;background:currentColor;opacity:.3;transform:scale(0);animation:rpl .6s ease-out forwards;pointer-events:none}@keyframes rpl{to{transform:scale(4);opacity:0}}
+.c{position:relative}.c::after{content:"";position:absolute;inset:0;border-radius:14px;background:radial-gradient(180px circle at var(--mx,50%) var(--my,50%),rgba(45,212,191,.18),transparent 60%);opacity:0;transition:.3s;pointer-events:none}.c:hover::after{opacity:1}
+.sum.pop button{animation:pp .55s cubic-bezier(.3,1.4,.5,1) both}.sum.pop button:nth-child(2){animation-delay:.08s}.sum.pop button:nth-child(3){animation-delay:.16s}.sum.pop button:nth-child(4){animation-delay:.24s}
+@keyframes pp{from{opacity:0;transform:scale(.7)}}
+.h{margin:0 0 4px;font-size:18px}
+.wy{border:1px solid var(--line);border-radius:12px;margin-top:10px;overflow:hidden;background:var(--bg);transition:box-shadow .3s}.wy[open]{box-shadow:var(--sh)}
+.wy summary{display:flex;gap:8px;align-items:center;padding:12px;cursor:pointer;list-style:none}.wy summary::-webkit-details-marker{display:none}
+.wy .ch{margin-inline-start:auto;transition:transform .3s}.wy[open] .ch{transform:rotate(180deg)}
+.wb{padding:0 14px 12px;animation:dd .4s}@keyframes dd{from{opacity:0;transform:translateY(-8px)}}
+.wb h4{margin:12px 0 4px;font-size:14px}.wb ul{margin:0;padding-inline-start:20px}.wb li{margin:2px 0}
+.wy[open] li{animation:ri .45s both;animation-delay:calc(var(--k)*70ms)}
+.qs{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.qs li{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);transition:.25s}
+.qs li:hover{transform:translateY(-3px);border-color:var(--pri);box-shadow:var(--sh)}
+.qn{flex:none;width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:800;animation:pp .6s cubic-bezier(.3,1.4,.5,1) both;animation-delay:calc(var(--i)*90ms)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+.ld .h::after{content:"";display:inline-block;width:14px;height:14px;margin-inline-start:8px;border:2px solid var(--pri);border-top-color:transparent;border-radius:50%;animation:sn .7s linear infinite;vertical-align:middle}
+.c.cc{border-color:var(--hi);animation:cp 1.6s infinite}
+.crit{background:var(--hib);color:var(--hi);border:2px solid var(--hi);border-radius:14px;padding:12px 16px;margin-bottom:14px;animation:cp 1.6s infinite}.crit ul{margin:6px 0 0;padding-inline-start:20px}
+@keyframes cp{50%{box-shadow:0 0 0 7px rgba(220,38,38,.18)}}
+.ringb{display:flex;align-items:center;gap:16px;margin-bottom:14px}.ringb svg{width:104px;flex:none}
+.rb{fill:none;stroke:var(--line);stroke-width:9}.rf{fill:none;stroke:var(--pri);stroke-width:9;stroke-linecap:round;stroke-dasharray:264;stroke-dashoffset:264;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1),stroke .5s}
+.rtx{font-size:20px;font-weight:800;fill:var(--ink)}#rtx{font-size:15px}#rtx b{font-size:26px;display:block}
+.gh{margin:18px 0 2px;font-size:15px;color:var(--pri)}
+.pi{font-size:20px;flex:none}
+.prof{margin:0 0 10px}.prof input,.prof select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+.ck{display:inline-block;color:#fff;background:var(--pri);width:24px;height:24px;line-height:24px;border-radius:50%;text-align:center;animation:pp .5s both}
+.chart{width:100%;max-width:440px;direction:ltr;display:block;margin-top:8px}.band{fill:var(--okb);opacity:.7}
+.ln{fill:none;stroke:var(--pri);stroke-width:2.5;stroke-dasharray:1;stroke-dashoffset:1;animation:dl 1.2s .2s forwards}@keyframes dl{to{stroke-dashoffset:0}}
+.pt{fill:var(--pri);animation:pp .5s both}.tx{font-size:10px;fill:var(--ink)}.tx2{font-size:9px;fill:var(--mut)}
+#pr{display:none}
+@media print{body>*:not(#pr){display:none!important}#pr{display:block!important;color:#000;background:#fff;padding:12px;font-family:"Cairo",Arial,sans-serif}#pr table{width:100%;border-collapse:collapse;margin:8px 0}#pr td,#pr th{border:1px solid #999;padding:5px;text-align:start}#pr h1{margin:0}}
+@media(max-width:600px){.sum{grid-template-columns:repeat(2,1fr)}.hero{padding-top:76px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="logo"><i>🩺</i>MedCare</div><div><button class="ib" id="spk" data-t="spk">🔊</button><button class="ib" id="fz" data-t="fz">A+</button><button class="ib" id="th" aria-label="theme">◐</button><button class="ib" id="lg">EN</button></div></header>
+<section class="hero">
+  <i class="bl b1"></i><i class="bl b2"></i>
+  <h1 data-i="title"></h1><p data-i="sub"></p>
+  <svg class="ecg" viewBox="0 0 900 48" preserveAspectRatio="none" aria-hidden="true"><path d="M0 28H260l14-4 10 4h40l10-24 14 44 14-20h50l12-6 12 6h464"/></svg>
+</section>
+<main>
+  <nav class="tabs rise"><button data-tab="lab" class="on" data-i="tabL"></button><button data-tab="rx" data-i="tabR"></button></nav>
+  <section class="box rise gb">
+    <div class="drop" id="drop"><label class="pk"><input type="file" id="file" accept="image/*">
+      <svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 17a4 4 0 100-8 4 4 0 000 8z"/></svg>
+      <span data-i="drop"></span></label>
+      <span class="pvw" id="pvx"><img id="pv" alt="" hidden></span>
+      <button class="btn" type="button" id="cam" data-i="cam"></button><input type="file" id="cam_in" accept="image/*" capture="environment" hidden></div>
+    <div class="row prof"><input type="number" id="age" min="0" max="120" inputmode="numeric" data-p="age" style="width:92px"><select id="sex"><option value="" data-i="sex0"></option><option value="m" data-i="sexm"></option><option value="f" data-i="sexf"></option></select><input type="text" id="alg" data-p="alg" style="flex:1;min-width:150px"></div>
+    <textarea id="inp" spellcheck="false" aria-label="text"></textarea>
+    <div class="row"><button class="btn p" id="go" data-i="go"></button><button class="btn" id="smp" data-i="smp"></button><button class="btn" id="clr" data-i="clr"></button><span class="mut" id="st"></span></div>
+    <div id="cdb" hidden style="margin-top:8px;color:var(--lo);font-weight:600"></div>
+  </section>
+  <section id="res" hidden>
+    <div class="box rv ringb" id="ring" hidden><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="rb" cx="50" cy="50" r="42"/><circle class="rf" id="rf" cx="50" cy="50" r="42" transform="rotate(-90 50 50)"/><text class="rtx" id="rt" x="50" y="57" text-anchor="middle"></text></svg><div id="rtx"></div></div>
+    <div class="crit rv" id="crit" hidden></div>
+    <div class="sum" id="sum"></div>
+    <div class="box" style="margin-top:14px">
+      <div class="tb"><input type="text" id="q" data-p="q"><button class="btn" id="vw" data-t="vw">☰</button><button class="btn" id="sv" data-t="sv">💾</button><button class="btn" id="pdf" data-t="pdf">📄</button><button class="btn" id="shr" data-t="shr">📤</button></div>
+      <div id="out"></div>
+      <p class="mut" id="none" hidden data-i="none"></p>
+      <p class="mut" id="src"></p>
+    </div>
+    <div class="box rv" id="pat" style="margin-top:14px" hidden><h3 class="h" data-i="patT"></h3><ul class="qs" id="patL"></ul></div>
+    <div class="box rv" id="ddi" style="margin-top:14px" hidden><h3 class="h" data-i="ddiT"></h3><ul class="qs" id="ddiL"></ul></div>
+    <div class="box rv" id="fx" style="margin-top:14px" hidden><h3 class="h" data-i="fxT"></h3><ul class="qs" id="fxL"></ul></div>
+    <div class="box rv" id="sch" style="margin-top:14px" hidden><h3 class="h" data-i="schT"></h3><div class="tw"><table id="schTb"></table></div><div class="row"><button class="btn" id="ics" data-i="ics"></button></div></div>
+    <div class="box rv" id="why" style="margin-top:14px" hidden><h3 class="h" data-i="whyT"></h3><p class="mut" data-i="whyD" style="margin:0 0 4px"></p><div id="whyL"></div><p class="mut" data-i="whyN" style="margin-bottom:0"></p></div>
+    <div class="box rv" id="qb" style="margin-top:14px" hidden><h3 class="h" data-i="qT"></h3><ol class="qs" id="qL"></ol></div>
+  </section>
+  <section class="box rv" id="hist" hidden><h3 class="h" data-i="histT"></h3><p class="mut" data-i="histN" style="margin:0 0 6px"></p><div id="hC"></div><div id="hL"></div></section>
+  <p class="mut" data-i="disc"></p>
+</main>
+<footer class="ft rv">Designed By Jad Moualla</footer>
+<div id="pr"></div><div id="toast"></div>
+<script>
+const S={
+title:["افهم تحاليلك ووصفاتك الطبية بثوانٍ","Understand your labs and prescriptions in seconds"],
+sub:["الصق النص أو ارفع صورة، وMedCare يستخرج النتائج ويصنفها تلقائياً.","Paste text or upload a photo and MedCare extracts and classifies the results."],
+tabL:["🧪 تقرير تحاليل","🧪 Lab report"],tabR:["💊 وصفة طبية","💊 Prescription"],
+drop:["اضغط لرفع صورة أو التقاط صورة بالكاميرا","Tap to upload or take a photo"],
+go:["حلّل","Analyze"],smp:["مثال تجريبي","Sample"],clr:["مسح","Clear"],
+all:["الكل","All"],Normal:["طبيعي","Normal"],High:["مرتفع","High"],Low:["منخفض","Low"],
+q:["ابحث...","Search..."],none:["لا توجد نتائج. ضع كل فحص أو دواء في سطر مستقل.","No results. Put each test or medicine on its own line."],
+busy:["جارٍ التحليل...","Analyzing..."],ocr:["جارٍ قراءة الصورة...","Reading the image..."],fail:["تعذّرت قراءة الصورة. جرّب صورة أوضح أو الصق النص يدوياً.","Couldn't read the image. Try a clearer photo or paste the text."],
+src:["طريقة التحليل: ","Analysis: "],loc:["قراءة مباشرة","Direct reading"],gem:["تحليل ذكي","Smart analysis"],
+cols:[["الفحص","القيمة","الوحدة","النطاق المرجعي","الحالة"],["Test","Value","Unit","Reference range","Status"]],
+ref:["النطاق","Range"],meds:["أدوية","Medicines"],
+whyT:["🔎 الأسباب المحتملة وخطوات مقترحة","🔎 Possible causes & suggested next steps"],whyD:["اضغط على أي نتيجة غير طبيعية لعرض التفاصيل.","Tap any abnormal result to see details."],
+c:["الأسباب المحتملة","Possible causes"],nat:["خطوات طبيعية بسيطة","Simple natural steps"],med:["خيارات علاجية للنقاش مع طبيبك","Options to discuss with your doctor"],
+whyN:["معلومات للتوعية فقط وليست تشخيصاً. الأدوية يصفها الطبيب؛ لا تبدأ أو توقف أي دواء من تلقاء نفسك.","For awareness only, not a diagnosis. Medicines must be prescribed by a doctor; never start or stop one on your own."],
+other:["توجد نتائج أخرى غير طبيعية بلا شرح مفصّل هنا: ناقشها مع طبيبك.","Other abnormal results have no detailed note here: discuss them with your doctor."],
+qT:["🩺 5 أسئلة مقترحة لطبيبك","🩺 5 suggested questions for your doctor"],
+age:["العمر","Age"],sex0:["الجنس","Sex"],sexm:["ذكر","Male"],sexf:["أنثى","Female"],alg:["حساسية دوائية (اختياري)","Drug allergies (optional)"],
+critT:["قيم حرجة — راجع الطبيب أو الطوارئ فوراً","Critical values — seek medical care immediately"],ringN:["من الفحوصات ضمن الطبيعي","of tests are in the normal range"],
+patT:["🧩 أنماط مركّبة من نتائجك","🧩 Combined patterns in your results"],ddiT:["⚠️ تعارضات وتنبيهات الأدوية","⚠️ Medicine interactions & alerts"],
+ddiOk:["لم يُرصد تعارض معروف بين الأدوية المذكورة (القائمة غير شاملة، اسأل الصيدلي).","No known interaction found among the listed medicines (not exhaustive; ask your pharmacist)."],
+dup:["أدوية مكررة من نفس الفئة — اسأل الطبيب أو الصيدلي.","Duplicate medicines from the same class — ask your doctor or pharmacist."],alAl:["تنبيه حساسية","Allergy alert"],
+fxT:["🧪 أدوية قد تؤثر على تحاليلك","🧪 Medicines that may affect your tests"],schT:["🗓 جدول الأدوية اليومي","🗓 Daily medicine schedule"],
+sch0:["الدواء","Medicine"],sch1:["🌅 صباحاً","🌅 Morning"],sch2:["☀️ ظهراً","☀️ Noon"],sch3:["🌆 مساءً","🌆 Evening"],sch4:["🌙 نوم","🌙 Bedtime"],prn:["عند اللزوم","As needed"],wk:["أسبوعياً","Weekly"],
+ics:["📅 أضف للتقويم","📅 Add to calendar"],sv:["حفظ في سجلي","Save to my history"],pdf:["تصدير PDF","Export PDF"],shr:["مشاركة الملخص","Share summary"],
+saved:["تم الحفظ في سجلك ✓","Saved to your history ✓"],copied:["تم نسخ الملخص ✓","Summary copied ✓"],noprint:["الطباعة غير متاحة هنا — استخدم زر المشاركة.","Printing isn't available here — use the share button."],
+histT:["📈 سجلي وتتبع التغيّر","📈 My history & trends"],histN:["محفوظ على هذا الجهاز فقط.","Stored on this device only."],
+histH:["احفظ تقريرين أو أكثر لعرض تغيّر أي فحص بمرور الوقت.","Save two or more reports to see a test's trend over time."],open:["فتح","Open"],del:["حذف","Delete"],
+spk:["قراءة النتائج بصوت عالٍ","Read results aloud"],fz:["حجم الخط","Font size"],vw:["تغيير العرض","Change view"],icsok:["تم إنشاء ملف التقويم","Calendar file created"],
+cdT:["⏳ التحليل الذكي في فترة تهدئة","⏳ Smart analysis is cooling down"],cdN:["التحليل المباشر ما زال يعمل.","Direct reading still works."],
+login:["تسجيل الدخول","Sign in"],signup:["إنشاء حساب","Create account"],logout:["تسجيل الخروج","Sign out"],name:["الاسم","Name"],email:["البريد الإلكتروني","Email"],pass:["كلمة المرور (6 أحرف على الأقل)","Password (min. 6 characters)"],
+save:["💾 حفظ الملخص","💾 Save summary"],saved:["تم حفظ التقرير ✓","Report saved ✓"],mine:["تقاريري المحفوظة","My saved reports"],nosaved:["لا توجد تقارير محفوظة بعد.","No saved reports yet."],open:["فتح","Open"],
+exists:["هذا البريد مسجل مسبقاً.","This email is already registered."],short:["كلمة المرور قصيرة.","Password is too short."],bad:["البريد أو كلمة المرور غير صحيحة.","Wrong email or password."],
+haveAcc:["لديك حساب؟ سجّل الدخول","Have an account? Sign in"],noAcc:["ليس لديك حساب؟ أنشئ حساباً","No account? Create one"],cam:["📷 التقاط صورة","📷 Take photo"],
+imgok:["تم تحميل الصورة","Image loaded"],imgbad:["تعذّر فتح هذه الصورة. جرّب صورة JPG أو PNG.","Couldn't open this image. Try a JPG or PNG."],tests:["فحص","tests"],
+or:["أو بالبريد الإلكتروني","or with email"],
+note:["الحسابات والتقارير تُحفظ على هذا الجهاز فقط.","Accounts and reports are stored on this device only."],close:["إغلاق","Close"],
+disc:["للمعلومات فقط وليس بديلاً عن الطبيب أو الصيدلي. النطاقات الافتراضية للبالغين وتختلف بين المختبرات.","For information only; not a substitute for a doctor or pharmacist. Default ranges are for adults and vary by lab."]};
+const G={CBC:["Blood count","صورة الدم"],SUG:["Sugar","السكر"],KID:["Kidney","الكلى"],LYT:["Electrolytes","الأملاح"],PRO:["Protein","البروتين"],LIV:["Liver","الكبد"],LIP:["Lipids","الدهون"],THY:["Thyroid","الغدة الدرقية"],VIT:["Vitamins","الفيتامينات"],FE:["Iron","الحديد"],HRT:["Heart","القلب"],INF:["Inflammation","الالتهاب"],COA:["Coagulation","التخثر"],HOR:["Hormones/other","هرمونات وأخرى"]};
+Object.assign(G,{CALC:["Calculated","محسوبة"],URN:["Urine","البول"],SER:["Serology / infection","السيرولوجيا والعدوى"]});
+const L=`CBC|WBC|كريات الدم البيضاء|wbc,white blood cell count,white blood cells,white blood cell,leukocytes|10³/µL|4|11
+CBC|RBC|كريات الدم الحمراء|rbc,red blood cell count,red blood cells,red blood cell,erythrocytes|10⁶/µL|4.2|5.9
+CBC|Hemoglobin|الهيموغلوبين|hemoglobin,haemoglobin,hgb,hb|g/dL|12|17.5
+CBC|Hematocrit|الهيماتوكريت|hematocrit,haematocrit,hct,pcv|%|36|52
+CBC|MCV||mcv,mean corpuscular volume|fL|80|100
+CBC|MCH||mch|pg|27|33
+CBC|MCHC||mchc|g/dL|32|36
+CBC|RDW||rdw,rdw-cv|%|11.5|14.5
+CBC|Platelets|الصفائح الدموية|platelets,platelet count,plt,thrombocytes|10³/µL|150|450
+CBC|MPV||mpv|fL|7.5|12
+CBC|Neutrophils|العدلات|neutrophils,neutrophil,neut|%|40|75
+CBC|Lymphocytes|الليمفاويات|lymphocytes,lymphocyte,lymph|%|20|45
+CBC|Monocytes|الوحيدات|monocytes,monocyte,mono|%|2|10
+CBC|Eosinophils|الحمضات|eosinophils,eosinophil,eos|%|0|6
+CBC|Basophils|القاعدات|basophils,basophil,baso|%|0|2
+CBC|Reticulocytes||reticulocytes,reticulocyte count,retic|%|0.5|2.5
+SUG|Glucose|سكر الدم|fasting blood sugar,fasting glucose,blood glucose,glucose,fbs,fbg|mg/dL|70|99
+SUG|Random Glucose|سكر عشوائي|random blood sugar,random glucose,rbs|mg/dL|70|140
+SUG|HbA1c|السكر التراكمي|hemoglobin a1c,glycated hemoglobin,hba1c,hb a1c,a1c|%|4|5.6
+SUG|Insulin|الأنسولين|fasting insulin,insulin|µIU/mL|2|25
+KID|Urea|اليوريا|blood urea,urea|mg/dL|15|45
+KID|BUN||blood urea nitrogen,bun|mg/dL|7|20
+KID|Creatinine|الكرياتينين|serum creatinine,creatinine|mg/dL|0.6|1.3
+KID|eGFR|معدل الترشيح|egfr,gfr|mL/min|90|200
+KID|Uric Acid|حمض اليوريك|uric acid,urate|mg/dL|3.5|7.2
+LYT|Sodium|الصوديوم|sodium,na|mmol/L|135|145
+LYT|Potassium|البوتاسيوم|potassium,k|mmol/L|3.5|5.1
+LYT|Chloride|الكلورايد|chloride,cl|mmol/L|98|107
+LYT|Calcium|الكالسيوم|calcium,ca|mg/dL|8.5|10.2
+LYT|Magnesium|المغنيسيوم|magnesium|mg/dL|1.7|2.2
+LYT|Phosphorus|الفوسفور|phosphorus,phosphate,phos|mg/dL|2.5|4.5
+LYT|Bicarbonate|البيكربونات|bicarbonate,hco3,co2|mmol/L|22|29
+PRO|Total Protein|البروتين الكلي|total protein|g/dL|6|8.3
+PRO|Albumin|الألبومين|albumin|g/dL|3.5|5
+PRO|Globulin||globulin|g/dL|2|3.5
+LIV|ALT||alanine aminotransferase,alt,sgpt|U/L|7|56
+LIV|AST||aspartate aminotransferase,ast,sgot|U/L|10|40
+LIV|ALP||alkaline phosphatase,alp|U/L|44|147
+LIV|GGT||gamma gt,ggt|U/L|8|61
+LIV|Total Bilirubin|البيليروبين|total bilirubin,bilirubin|mg/dL|0.1|1.2
+LIV|Direct Bilirubin||direct bilirubin|mg/dL|0|0.3
+LIV|LDH||lactate dehydrogenase,ldh|U/L|140|280
+LIP|Total Cholesterol|الكوليسترول الكلي|total cholesterol,cholesterol|mg/dL|0|200
+LIP|LDL||ldl cholesterol,ldl-c,ldl|mg/dL|0|100
+LIP|HDL||hdl cholesterol,hdl-c,hdl|mg/dL|40|100
+LIP|Triglycerides|الدهون الثلاثية|triglycerides,triglyceride,tg|mg/dL|0|150
+LIP|VLDL||vldl|mg/dL|2|30
+LIP|Non-HDL||non-hdl cholesterol,non hdl|mg/dL|0|130
+THY|TSH|الغدة الدرقية TSH|thyroid stimulating hormone,tsh|µIU/mL|0.4|4.5
+THY|Free T4||free thyroxine,free t4,ft4|ng/dL|0.8|1.8
+THY|Free T3||free triiodothyronine,free t3,ft3|pg/mL|2.3|4.2
+THY|Total T3||total t3|ng/dL|80|200
+THY|Total T4||total t4|µg/dL|4.5|12
+VIT|Vitamin D|فيتامين د|25-hydroxy vitamin d,25-oh vitamin d,vitamin d3,vitamin d,25(oh)d|ng/mL|30|100
+VIT|Vitamin B12|فيتامين ب12|vitamin b12,cobalamin,b12|pg/mL|200|900
+VIT|Folate|الفولات|folic acid,folate|ng/mL|3|17
+FE|Iron|الحديد|serum iron,iron|µg/dL|60|170
+FE|Ferritin|الفيريتين|ferritin|ng/mL|20|300
+FE|TIBC||total iron binding capacity,tibc|µg/dL|250|450
+FE|Transferrin Sat.||transferrin saturation|%|20|50
+HRT|Troponin I||troponin i,troponin|ng/mL|0|0.04
+HRT|CK-MB||ck-mb,ckmb|U/L|0|25
+HRT|CK||creatine kinase,cpk,ck|U/L|30|200
+HRT|BNP||nt-probnp,bnp|pg/mL|0|100
+HRT|Homocysteine||homocysteine|µmol/L|5|15
+INF|CRP|بروتين سي التفاعلي|c-reactive protein,hs-crp,crp|mg/L|0|5
+INF|ESR|سرعة الترسب|erythrocyte sedimentation rate,esr|mm/hr|0|20
+COA|PT||prothrombin time,pt|sec|11|13.5
+COA|INR||inr|ratio|0.8|1.2
+COA|aPTT||partial thromboplastin time,aptt,ptt|sec|25|35
+COA|D-Dimer||d-dimer,d dimer|µg/mL|0|0.5
+COA|Fibrinogen||fibrinogen|mg/dL|200|400
+HOR|PSA||prostate specific antigen,psa|ng/mL|0|4
+HOR|Cortisol||cortisol|µg/dL|6|23
+HOR|Prolactin||prolactin|ng/mL|4|25
+HOR|Testosterone||total testosterone,testosterone|ng/dL|300|1000
+HOR|PTH||parathyroid hormone,pth|pg/mL|15|65
+HOR|Amylase||amylase|U/L|30|110
+HOR|Lipase||lipase|U/L|0|160
+URN|Urine pH|حموضة البول (pH)|urine ph,ph||4.5|8
+URN|Specific Gravity|الكثافة النوعية للبول|specific gravity,sg||1.005|1.03
+URN|Urine WBC|كريات بيضاء بالبول|urine wbc,pus cells,pus cell||0|5
+URN|Urine RBC|كريات حمراء بالبول|urine rbc,urine rbcs||0|3`.split("\n").map(l=>l.split("|"));
+const D=L.map(a=>({g:a[0],en:a[1],ar:a[2]||a[1],al:a[3].split(","),u:a[4],lo:+a[5],hi:+a[6]}));
+const AR2={MCV:"متوسط حجم الكرية (MCV)",MCH:"متوسط هيموغلوبين الكرية (MCH)",MCHC:"تركيز هيموغلوبين الكرية (MCHC)",RDW:"عرض توزع الكريات (RDW)",MPV:"متوسط حجم الصفائح (MPV)",Reticulocytes:"الكريات الشبكية",BUN:"نيتروجين اليوريا (BUN)",ALT:"إنزيم ALT (الكبد)",AST:"إنزيم AST (الكبد)",ALP:"الفوسفاتاز القلوي (ALP)",GGT:"إنزيم GGT","Direct Bilirubin":"البيليروبين المباشر",LDH:"إنزيم LDH",Globulin:"الجلوبيولين",LDL:"الكوليسترول الضار (LDL)",HDL:"الكوليسترول النافع (HDL)",VLDL:"الكوليسترول VLDL","Non-HDL":"الكوليسترول غير HDL","Free T4":"هرمون T4 الحر","Free T3":"هرمون T3 الحر","Total T3":"هرمون T3 الكلي","Total T4":"هرمون T4 الكلي",TIBC:"السعة الرابطة للحديد (TIBC)","Transferrin Sat.":"تشبع الترانسفيرين","Troponin I":"تروبونين I","CK-MB":"إنزيم CK-MB",CK:"إنزيم CK",BNP:"هرمون BNP",Homocysteine:"الهوموسيستين",PT:"زمن البروثرومبين (PT)",INR:"معامل التخثر (INR)",aPTT:"زمن الثرومبوبلاستين (aPTT)","D-Dimer":"دي-دايمر (D-Dimer)",Fibrinogen:"الفيبرينوجين",PSA:"مستضد البروستات (PSA)",Cortisol:"الكورتيزول",Prolactin:"البرولاكتين",Testosterone:"التستوستيرون",PTH:"الغدة جار الدرقية (PTH)",Amylase:"الأميلاز",Lipase:"الليباز"};
+D.forEach(d=>{if(d.ar===d.en&&AR2[d.en])d.ar=AR2[d.en]});
+const esR=a=>a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+");
+const AL=[];D.forEach((d,i)=>d.al.forEach(a=>AL.push([new RegExp("(?<![\\p{L}\\p{N}])"+esR(a)+"(?![\\p{L}])","iu"),i,a.length])));
+AL.sort((a,b)=>b[2]-a[2]);
+const norm=s=>s.replace(/[٠-٩]/g,c=>"٠١٢٣٤٥٦٧٨٩".indexOf(c)).replace(/٫/g,".").replace(/[–—]/g,"-");
+const cls=(v,lo,hi)=>v<lo?"Low":v>hi?"High":"Normal";
+function parseLab(text){
+  const out=[],seen=new Set();let inU=false;
+  norm(text).split(/\r?\n/).forEach(line=>{
+    if(/urine|urinalysis|بول/i.test(line))inU=true;
+    if(qual(line,out,inU))return;
+    for(const [re,i] of AL){
+      const m=re.exec(line);if(!m||seen.has(i))continue;
+      const raw=line.slice(m.index+m[0].length);
+      const rest=raw.replace(/^[\s,:]*25\s*-?\s*(?:hydroxy|oh)\w*/i,"").replace(/\([A-Za-z][A-Za-z0-9 -]*\)/g,"");
+      const vm=/(\d+(?:[.,]\d+)?)/.exec(rest);if(!vm)continue;
+      const v=parseFloat(vm[1].replace(",","."));
+      const after=rest.slice(vm.index+vm[0].length),d=D[i];
+      let lo=d.lo,hi=d.hi,rng=null;const o=prng(d.en);if(o){lo=o[0];hi=o[1]}
+      const r=/(\d+(?:\.\d+)?)\s*(?:-|to)\s*(\d+(?:\.\d+)?)/i.exec(after),lt=/[<≤]\s*(\d+(?:\.\d+)?)/.exec(after),gt=/[>≥]\s*(\d+(?:\.\d+)?)/.exec(after);
+      if(r){lo=+r[1];hi=+r[2];rng=r[1]+" - "+r[2]}else if(lt){lo=0;hi=+lt[1];rng="< "+lt[1]}else if(gt){lo=+gt[1];hi=1e9;rng="> "+gt[1]}
+      const um=/^((?:x?10\^?\S*)|[A-Za-zµ%][^\s()|,;]*)/i.exec(after.replace(/^[\s:(|,\t]+/,""));
+      let unit=d.u;if(um&&!/^(H|L|high|low|normal|ref|flag)$/i.test(um[1]))unit=um[1];
+      let st=cls(v,lo,hi);
+      if(st==="Normal"){if(/(?:^|[\s(|])(?:H|high)(?:$|[\s)|])/i.test(raw))st="High";else if(/(?:^|[\s(|])(?:L|low)(?:$|[\s)|])/i.test(raw))st="Low"}
+      out.push({en:d.en,ar:d.ar,g:d.g,value:v,unit,range:rng||(lo+" - "+hi),lo,hi,status:st,adj:!!o&&!rng});seen.add(i);break;
+    }
+  });
+  return out;
+}
+function mapLab(a){return a.filter(x=>typeof x.value==="number"&&x.name).map(x=>{
+  const lo=typeof x.low==="number"?x.low:0,hi=typeof x.high==="number"?x.high:1e9,n=String(x.name).toLowerCase();
+  const d=D.find(d=>d.al.includes(n)||d.en.toLowerCase()===n);
+  return {en:x.name,ar:d?d.ar:(x.name_ar||x.name),g:d?d.g:"HOR",value:x.value,unit:x.unit||"",range:x.range||(lo+" - "+hi),lo,hi,status:cls(x.value,lo,hi)}})}
+// ---- prescriptions
+const DR={ab:"amoxicillin,augmentin,azithromycin,ciprofloxacin,levofloxacin,cefuroxime,ceftriaxone,cephalexin,cefixime,doxycycline,metronidazole,clarithromycin,clindamycin,nitrofurantoin",
+an:"paracetamol,acetaminophen,panadol,ibuprofen,diclofenac,naproxen,tramadol,aspirin,celecoxib",
+gi:"omeprazole,esomeprazole,pantoprazole,lansoprazole,famotidine,domperidone,ondansetron,metoclopramide",
+cv:"amlodipine,atenolol,bisoprolol,metoprolol,carvedilol,losartan,valsartan,lisinopril,enalapril,hydrochlorothiazide,furosemide,spironolactone,atorvastatin,rosuvastatin,simvastatin,clopidogrel,warfarin",
+dm:"metformin,glimepiride,gliclazide,sitagliptin,empagliflozin,dapagliflozin,pioglitazone,insulin",
+al:"loratadine,cetirizine,fexofenadine,montelukast,salbutamol,prednisolone,prednisone,dexamethasone,budesonide,ambroxol",
+nr:"sertraline,escitalopram,alprazolam,diazepam,gabapentin,pregabalin,levetiracetam,amitriptyline",
+ot:"levothyroxine,vitamin d,folic acid,ferrous,cholecalciferol,allopurinol,colchicine"};
+const DC={ab:["Antibiotic","مضاد حيوي"],an:["Pain / fever","مسكن / خافض حرارة"],gi:["Stomach","معدة وهضم"],cv:["Heart / BP","قلب وضغط"],dm:["Diabetes","سكري"],al:["Allergy / chest","حساسية وصدر"],nr:["Nerves / mood","أعصاب ونفسية"],ot:["Supplement / other","مكمل / أخرى"]};
+const DL=[];for(const c in DR)DR[c].split(",").forEach(n=>DL.push([new RegExp("(?<![\\p{L}])"+esR(n)+"(?![\\p{L}])","iu"),n,c]));
+const catOf=n=>{const f=DL.find(d=>d[0].test(n));return f?f[2]:null};
+const FRM=[[/\b(?:tab(?:let)?s?)\b|أقراص|اقراص|حبوب|حبة/i,["أقراص","Tablet"]],[/\bcap(?:sule)?s?\b|كبسول/i,["كبسول","Capsule"]],[/\bsyr(?:up)?\b|\bsyp\b|\bsusp\w*|شراب/i,["شراب","Syrup"]],[/\binj\w*|حقنة/i,["حقنة","Injection"]],[/\bcream\b|\boint\w*|\bgel\b|كريم/i,["موضعي","Topical"]],[/\bdrops?\b|قطرة/i,["قطرة","Drops"]],[/\binhaler\b|\bspray\b|بخاخ/i,["بخاخ","Inhaler"]],[/\bsupp\w*/i,["تحاميل","Suppository"]]];
+const FQ=[[/q\.?\s*6\s*h|every\s*6/i,["كل 6 ساعات","Every 6 hours"]],[/q\.?\s*8\s*h|every\s*8|كل\s*8/i,["كل 8 ساعات","Every 8 hours"]],[/q\.?\s*12\s*h|every\s*12|كل\s*12/i,["كل 12 ساعة","Every 12 hours"]],[/\bprn\b|as needed|عند اللزوم/i,["عند اللزوم","As needed"]],[/\bq\.?i\.?d\b|\bqds\b|4\s*times|4\s*مرات/i,["4 مرات يومياً","4 times daily"]],[/\bt\.?i\.?d\b|\btds\b|thrice|3\s*times|3\s*مرات|ثلاث مرات/i,["3 مرات يومياً","3 times daily"]],[/\bb\.?i\.?d\b|\bbd\b|twice|2\s*times|مرتين/i,["مرتين يومياً","Twice daily"]],[/\bhs\b|\bqhs\b|bedtime|at night|عند النوم/i,["عند النوم","At bedtime"]],[/\bweekly\b|أسبوعياً|اسبوعيا/i,["مرة أسبوعياً","Once weekly"]],[/\bo\.?d\b|\bq\.?d\b|once|daily|يومياً|يوميا/i,["مرة يومياً","Once daily"]]];
+const IN=[[/after\s*(?:meals?|food)|بعد\s*(?:ال)?(?:أكل|اكل|طعام)/i,["بعد الأكل","After meals"]],[/before\s*(?:meals?|food|breakfast)|قبل\s*(?:ال)?(?:أكل|اكل|طعام|الفطور)/i,["قبل الأكل","Before meals"]],[/with\s*(?:meals?|food)|مع\s*(?:ال)?(?:أكل|اكل|طعام)/i,["مع الأكل","With food"]],[/empty stomach|على الريق/i,["على الريق","Empty stomach"]]];
+const DU={day:["يوم","day(s)"],week:["أسبوع","week(s)"],month:["شهر","month(s)"]};
+function parseRx(text){
+  const out=[];
+  norm(text).split(/\r?\n/).forEach(line=>{
+    const dr=DL.find(d=>d[0].test(line));
+    const pm=/^\s*(?:\d+[.)]\s*)?(?:tab|cap|syp|syr|inj|tablet|capsule|حبوب|كبسول)\.?\s+([A-Za-z][A-Za-z-]{2,})/i.exec(line)||/^\s*(?:\d+[.)]\s*)?([A-Za-z][A-Za-z-]{3,})\s+\d+(?:\.\d+)?\s*(?:mg|mcg|g|ml|iu)\b/i.exec(line);
+    const f={};
+    const dm=/(\d+(?:\.\d+)?)\s*(mg|mcg|µg|g|ml|iu|units?|%)/i.exec(line);if(dm)f.dose=dm[1]+" "+dm[2];
+    for(const [r,v] of FRM)if(r.test(line)){f.form=v;break}
+    const tri=/\b([0-2])-([0-2])-([0-2])\b/.exec(line);
+    if(tri){const n=[1,2,3].filter(k=>+tri[k]>0).length;f.freq=n===1?FQ[9][1]:n===2?FQ[6][1]:FQ[5][1]}
+    else for(const [r,v] of FQ)if(r.test(line)){f.freq=v;break}
+    const du=/(?:for|x|×|لمدة)\s*(\d+)\s*(day|week|month|يوم|أيام|ايام|اسبوع|أسابيع|شهر)/i.exec(line);
+    if(du){const k=/week|اسبوع|أسابيع/i.test(du[2])?"week":/month|شهر/i.test(du[2])?"month":"day";f.dur=[du[1]+" "+DU[k][0],du[1]+" "+DU[k][1]]}
+    for(const [r,v] of IN)if(r.test(line)){f.ins=v;break}
+    if(dr||pm){const name=dr?dr[1][0].toUpperCase()+dr[1].slice(1):pm[1];out.push({name,cat:dr?dr[2]:null,...f})}
+    else if(out.length)for(const k in f)if(!out[out.length-1][k])out[out.length-1][k]=f[k];
+  });
+  return out;
+}
+const bi=(en,ar)=>en||ar?[ar||en,en||ar]:null;
+const mapRx=a=>a.filter(x=>x.name).map(x=>({name:x.name,cat:catOf(x.name),dose:x.dose,form:bi(x.form,x.form_ar),freq:bi(x.frequency,x.frequency_ar),dur:bi(x.duration,x.duration_ar),ins:bi(x.instructions,x.instructions_ar)}));
+const KB={};`Hemoglobin:L|Iron deficiency;Blood loss (heavy periods, ulcers);Low B12 or folate;Chronic illness|نقص الحديد;فقدان دم (دورة غزيرة، قرحة);نقص B12 أو الفولات;أمراض مزمنة|Iron-rich foods (red meat, lentils, spinach) with vitamin C;Avoid tea and coffee with meals;Rest and build activity gradually|أطعمة غنية بالحديد (لحوم، عدس، سبانخ) مع فيتامين C;تجنب الشاي والقهوة مع الوجبات;راحة ونشاط تدريجي|Iron supplements (e.g. ferrous sulfate) if iron deficiency is confirmed;B12 or folate if they are low|مكملات الحديد (مثل فيروس سلفات) إذا تأكد النقص;B12 أو الفولات إذا كانا منخفضين
+Hemoglobin:H|Dehydration;Smoking;Living at high altitude;Sleep apnea;Bone marrow disorder (rare)|جفاف;تدخين;السكن في مكان مرتفع;انقطاع النفس أثناء النوم;اضطراب نخاع العظم (نادر)|Drink enough water;Quit smoking;Avoid iron supplements unless prescribed|اشرب ماء كافياً;أقلع عن التدخين;تجنب مكملات الحديد دون وصفة|Treatment depends on the cause; your doctor may order more tests|العلاج حسب السبب وقد يطلب الطبيب فحوصات إضافية
+WBC:H|Bacterial or viral infection;Inflammation;Physical or emotional stress;Steroids or smoking|عدوى بكتيرية أو فيروسية;التهاب;إجهاد جسدي أو نفسي;الكورتيزون أو التدخين|Rest and fluids;Treat the source (throat, teeth, urine);Quit smoking|راحة وسوائل;عالج مصدر العدوى (حلق، أسنان، بول);أقلع عن التدخين|Antibiotics only if a bacterial infection is confirmed by a doctor|مضاد حيوي فقط إذا أكد الطبيب وجود عدوى بكتيرية
+WBC:L|Viral infection;Some medicines;Autoimmune conditions;Low B12 or folate;Bone marrow problem (rare)|عدوى فيروسية;بعض الأدوية;أمراض مناعية;نقص B12 أو الفولات;مشكلة في نخاع العظم (نادر)|Balanced diet with protein;Good hand hygiene;Enough sleep|غذاء متوازن غني بالبروتين;نظافة اليدين;نوم كافٍ|Review your current medicines with the doctor;Treat any B12 or folate deficiency|راجع أدويتك الحالية مع الطبيب;عالج نقص B12 أو الفولات إن وُجد
+Platelets:L|Viral infection (e.g. dengue);Medicines;Immune thrombocytopenia;Liver disease;Heavy alcohol|عدوى فيروسية (مثل حمى الضنك);أدوية;نقص الصفائح المناعي;أمراض الكبد;الكحول|Avoid alcohol;Avoid contact sports until checked;Watch for bruising or bleeding|تجنب الكحول;تجنب الرياضات العنيفة حتى المراجعة;راقب الكدمات والنزيف|Avoid aspirin and ibuprofen unless your doctor says so;Treatment depends on the cause|تجنب الأسبرين والإيبوبروفين إلا بإذن الطبيب;العلاج حسب السبب
+Platelets:H|Iron deficiency;Infection or inflammation;After surgery or bleeding;Rarely a bone marrow condition|نقص الحديد;عدوى أو التهاب;بعد عملية أو نزيف;نادراً مشكلة في نخاع العظم|Correct iron deficiency through diet;Recheck after an illness resolves|صحح نقص الحديد غذائياً;أعد الفحص بعد زوال المرض|Usually none; the doctor treats the underlying cause|غالباً لا يلزم دواء؛ يعالج الطبيب السبب
+Glucose:H|Prediabetes or diabetes;Not fasting before the test;Stress or infection;Steroid medicines|مقدمات السكري أو السكري;عدم الصيام قبل الفحص;إجهاد أو عدوى;أدوية الكورتيزون|Cut sugary drinks and sweets;Walk 30 minutes daily;More fiber and vegetables;Lose extra weight|قلل المشروبات السكرية والحلويات;امشِ 30 دقيقة يومياً;زد الألياف والخضار;خفف الوزن الزائد|Metformin or others only if the doctor confirms diabetes|الميتفورمين أو غيره فقط إذا أكد الطبيب التشخيص
+Glucose:L|Skipping meals;Too much diabetes medicine or insulin;Heavy alcohol;Hormonal causes|تأخر الوجبات;زيادة أدوية السكر أو الأنسولين;الكحول;أسباب هرمونية|Eat regular meals with protein;Keep a quick sugar source (juice, dates) if shaky;Limit alcohol|وجبات منتظمة تحتوي بروتين;احتفظ بمصدر سكر سريع (عصير، تمر) عند الرجفة;قلل الكحول|If you take diabetes medicine, ask the doctor to adjust the dose|إن كنت تتناول أدوية سكر فاطلب من الطبيب تعديل الجرعة
+Creatinine:H|Dehydration;Kidney disease;NSAID painkillers;High protein or creatine supplements;Uncontrolled blood pressure or diabetes|جفاف;مرض كلوي;مسكنات (NSAIDs);بروتين عالٍ أو مكملات كرياتين;ضغط أو سكري غير منضبط|Drink water through the day;Avoid ibuprofen and diclofenac;Reduce salt;Stop creatine supplements|اشرب الماء خلال اليوم;تجنب الإيبوبروفين والديكلوفيناك;قلل الملح;أوقف مكملات الكرياتين|No self-medication; the doctor may repeat the test and check urine|لا أدوية ذاتية؛ قد يعيد الطبيب الفحص ويطلب تحليل بول
+Potassium:H|Kidney problems;ACE inhibitors or spironolactone;Hemolyzed (damaged) blood sample;Very high potassium intake|مشاكل الكلى;أدوية ACE أو سبيرونولاكتون;عينة دم متحللة;إفراط في البوتاسيوم|Limit bananas, oranges, potatoes and salt substitutes until rechecked;Drink fluids as advised|قلل الموز والبرتقال والبطاطا وبدائل الملح حتى إعادة الفحص;اشرب السوائل حسب توجيه الطبيب|Contact your doctor soon, especially with palpitations or weakness; do not stop prescribed medicines on your own|راجع الطبيب سريعاً خاصة مع خفقان أو ضعف؛ ولا توقف أدويتك من تلقاء نفسك
+Potassium:L|Vomiting or diarrhea;Water pills (diuretics);Low intake;Low magnesium|قيء أو إسهال;مدرات البول;قلة التناول;نقص المغنيسيوم|Eat bananas, potatoes, beans and yogurt;Replace lost fluids|تناول الموز والبطاطا والبقوليات واللبن;عوّض السوائل المفقودة|Potassium supplements only as prescribed|مكملات البوتاسيوم فقط بوصفة
+ALT:H|Fatty liver;Viral hepatitis;Alcohol;Medicines (e.g. high-dose paracetamol, statins);Obesity|كبد دهني;التهاب كبد فيروسي;الكحول;أدوية (مثل بارسيتامول بجرعات عالية، الستاتين);السمنة|Lose weight gradually;Avoid alcohol;Cut fried and sugary food;Exercise regularly|نزّل الوزن تدريجياً;تجنب الكحول;قلل المقليات والسكريات;مارس الرياضة|Avoid unnecessary painkillers and herbal supplements;Treatment targets the cause (doctor's decision)|تجنب المسكنات والأعشاب غير الضرورية;العلاج يستهدف السبب بقرار الطبيب
+Total Cholesterol:H|Diet high in saturated fat;Family history;Underactive thyroid;Obesity and inactivity|غذاء غني بالدهون المشبعة;عامل وراثي;خمول الغدة الدرقية;السمنة وقلة الحركة|Oats, beans, nuts, olive oil and fish;Cut fried and fast food;Walk 150 minutes per week|الشوفان والبقوليات والمكسرات وزيت الزيتون والسمك;قلل المقليات والوجبات السريعة;امشِ 150 دقيقة أسبوعياً|Statins if the doctor judges your overall heart risk requires them|الستاتين إذا رأى الطبيب أن خطر القلب الكلي يستدعيها
+Triglycerides:H|Sugar and refined carbs;Alcohol;Obesity;Diabetes|السكريات والنشويات المكررة;الكحول;السمنة;السكري|Cut sugary drinks and white bread;Avoid alcohol;Fish twice a week;Exercise|قلل المشروبات السكرية والخبز الأبيض;تجنب الكحول;السمك مرتين أسبوعياً;ممارسة الرياضة|Omega-3 or fibrates only if prescribed|أوميغا 3 أو الفايبرات فقط بوصفة
+HDL:L|Inactivity;Smoking;Obesity;Diet high in refined carbs|قلة الحركة;التدخين;السمنة;غذاء غني بالنشويات المكررة|Regular exercise;Quit smoking;Olive oil, nuts and fatty fish|رياضة منتظمة;الإقلاع عن التدخين;زيت الزيتون والمكسرات والسمك الدهني|No specific medicine; the doctor focuses on your overall risk|لا دواء محدد؛ يركز الطبيب على الخطر الكلي
+TSH:H|Underactive thyroid (e.g. Hashimoto);Iodine imbalance;Some medicines|خمول الغدة الدرقية (مثل هاشيموتو);اضطراب اليود;بعض الأدوية|Balanced diet with iodine and selenium (fish, eggs);Avoid high-dose supplements;Regular sleep|غذاء متوازن باليود والسيلينيوم (سمك، بيض);تجنب المكملات بجرعات عالية;نوم منتظم|Levothyroxine only after the doctor confirms and sets the dose|الليفوثيروكسين فقط بعد تأكيد الطبيب وتحديده للجرعة
+TSH:L|Overactive thyroid (e.g. Graves);Thyroid nodules;Too much thyroid medicine;Biotin supplements affecting the test|فرط نشاط الغدة (مثل غريفز);عقد الغدة;زيادة دواء الغدة;مكملات البيوتين تؤثر على الفحص|Avoid iodine, kelp and biotin supplements;Limit caffeine;Rest|تجنب اليود والطحالب ومكملات البيوتين;قلل الكافيين;الراحة|Anti-thyroid medicine only as prescribed|مضادات الغدة فقط بوصفة
+Vitamin D:L|Little sun exposure;Covered clothing or dark skin;Obesity;Poor absorption|قلة التعرض للشمس;ملابس ساترة أو بشرة داكنة;السمنة;ضعف الامتصاص|15 to 20 minutes of morning sun;Oily fish, eggs, fortified milk|15 إلى 20 دقيقة شمس صباحية;سمك دهني وبيض وحليب مدعم|Vitamin D3 supplement; the dose should come from your doctor|مكمل فيتامين D3؛ والجرعة يحددها طبيبك
+Vitamin B12:L|Vegetarian or vegan diet;Metformin or acid reducers;Pernicious anemia;Poor absorption|نظام نباتي;الميتفورمين أو أدوية الحموضة;فقر الدم الخبيث;ضعف الامتصاص|Meat, fish, eggs and dairy;Fortified foods if vegetarian|لحوم وسمك وبيض وألبان;أطعمة مدعمة للنباتيين|B12 tablets or injections as the doctor decides|أقراص أو حقن B12 حسب الطبيب
+CRP:H|Infection;Inflammation or injury;Autoimmune disease;Obesity|عدوى;التهاب أو إصابة;أمراض مناعية;السمنة|Rest and fluids;Anti-inflammatory diet (vegetables, fish, olive oil);Treat the source|راحة وسوائل;غذاء مضاد للالتهاب (خضار، سمك، زيت زيتون);عالج المصدر|Treat the cause; paracetamol for fever only as per the leaflet|عالج السبب؛ بارسيتامول للحرارة حسب النشرة فقط
+Uric Acid:H|Red and organ meat;Sugary drinks and beer;Dehydration;Kidney issues|اللحوم الحمراء والأحشاء;المشروبات السكرية والبيرة;الجفاف;مشاكل الكلى|Drink 2 to 3 L of water;Cut red meat, sugary drinks and beer;Cherries and low-fat dairy|اشرب 2 إلى 3 لتر ماء;قلل اللحوم الحمراء والمشروبات السكرية والبيرة;الكرز ومنتجات الألبان قليلة الدسم|Allopurinol or colchicine only if prescribed|الألوبيورينول أو الكولشيسين فقط بوصفة`.split("\n").forEach(l=>{const f=l.split("|");KB[f[0]]={c:[f[1].split(";"),f[2].split(";")],n:[f[3].split(";"),f[4].split(";")],m:[f[5].split(";"),f[6].split(";")]}});
+const AK={"RBC:L":"Hemoglobin:L","Hematocrit:L":"Hemoglobin:L","Iron:L":"Hemoglobin:L","Ferritin:L":"Hemoglobin:L","MCV:L":"Hemoglobin:L","RBC:H":"Hemoglobin:H","Hematocrit:H":"Hemoglobin:H","HbA1c:H":"Glucose:H","Random Glucose:H":"Glucose:H","Random Glucose:L":"Glucose:L","Urea:H":"Creatinine:H","BUN:H":"Creatinine:H","AST:H":"ALT:H","GGT:H":"ALT:H","LDL:H":"Total Cholesterol:H","Non-HDL:H":"Total Cholesterol:H","VLDL:H":"Total Cholesterol:H","Folate:L":"Vitamin B12:L","MCV:H":"Vitamin B12:L","ESR:H":"CRP:H","Neutrophils:H":"WBC:H"};
+const abn=()=>rows.lab.filter(r=>r.status!=="Normal"&&!r.calc);
+function renderWhy(a){
+  const box=$("why"),ix=lang==="ar"?1:0,it=[];let oth=0;
+  abn().forEach((r,i)=>{const k=r.en+":"+(r.status==="High"?"H":"L"),L=KB[k]||KB[AK[k]],x=a&&a.items&&a.items.find(y=>y&&y.id===i);
+    const e=x&&Array.isArray(x.causes)&&x.causes.length?{c:x.causes,n:x.natural||[],m:x.meds||[]}:L?{c:L.c[ix],n:L.n[ix],m:L.m[ix]}:null;
+    e?it.push([r,e]):oth++});
+  box.hidden=tab!=="lab"||!it.length;if(box.hidden)return;
+  const ul=a=>"<ul>"+a.map((x,i)=>`<li style="--k:${i}">${esc(x)}</li>`).join("")+"</ul>";
+  $("whyL").innerHTML=it.map(([r,e],i)=>`<details class="wy rise" style="--i:${i}"${i===0?" open":""}><summary><span class="badge ${r.status}">${tr(r.status)}</span><b>${esc(ix?r.ar:r.en)}</b><span class="num mut">${r.value} ${esc(r.unit)}</span><span class="ch">▾</span></summary><div class="wb"><h4>🔎 ${tr("c")}</h4>${ul(e.c)}<h4>🌿 ${tr("nat")}</h4>${ul(e.n)}<h4>💊 ${tr("med")}</h4>${ul(e.m)}</div></details>`).join("")+(oth?`<p class="mut">${tr("other")}</p>`:"");
+}
+const qHtml=Q=>Q.slice(0,5).map((q,i)=>`<li class="rise" style="--i:${i}"><span class="qn">${i+1}</span><span>${esc(q)}</span></li>`).join("");
+function renderQs(a){
+  const ix=lang==="ar"?1:0,R=rows[tab],Q=[];
+  if(a&&Array.isArray(a.questions)&&a.questions.length>=3){$("qb").hidden=!R.length;$("qL").innerHTML=qHtml(a.questions.map(String));return}
+  if(tab==="lab"){
+    const ab=R.filter(r=>r.status!=="Normal"),sp=r=>(r.hi>=1e8?Math.abs(r.lo):r.hi-r.lo)||1,dev=r=>r.q?9:(r.status==="High"?r.value-r.hi:r.lo-r.value)/sp(r);
+    ab.sort((a,b)=>dev(b)-dev(a));
+    ab.slice(0,2).forEach(r=>{const h=r.status==="High",n=ix?r.ar:r.en;Q.push(ix?`نتيجة ${n} ${h?"مرتفعة":"منخفضة"} (${r.value} ${r.unit}) — ما السبب المحتمل وهل أحتاج فحوصات إضافية؟`:`My ${n} is ${h?"high":"low"} (${r.value} ${r.unit}) — what could be causing it, and do I need more tests?`)});
+    const G=ab.length?[["هل أحتاج علاجاً الآن أم أبدأ بتعديل نمط الحياة أولاً؟","Do I need treatment now, or can I start with lifestyle changes first?"],["هل تؤثر أدويتي أو مكملاتي الحالية على هذه النتائج؟","Could my current medicines or supplements be affecting these results?"],["متى أعيد الفحص، وأي فحوصات تحديداً؟","When should I repeat the test, and which tests exactly?"],["هل هذه النتائج غير الطبيعية مرتبطة ببعضها؟","Are these abnormal results related to each other?"],["ما الأعراض التي تستدعي مراجعتك أو الطوارئ بسرعة؟","Which symptoms mean I should come back or go to the ER sooner?"]]
+    :[["نتائجي ضمن الطبيعي — كل كم أعيد هذه الفحوصات؟","My results are normal — how often should I repeat these tests?"],["هل هناك فحوصات وقائية مناسبة لعمري وحالتي؟","Are there preventive screenings suitable for my age and health?"],["كيف أحافظ على هذه النتائج بنمط حياتي؟","How can I keep these results healthy with my lifestyle?"],["هل أحتاج فعلاً إلى فيتامينات أو مكملات؟","Do I actually need any vitamins or supplements?"],["ما العلامات التي تستدعي فحصاً مبكراً؟","Which signs should prompt an earlier check-up?"]];
+    G.forEach(g=>{if(Q.length<5)Q.push(g[1-ix])});
+  }else{
+    const m=R.slice(0,1).map(x=>x.name);
+    Q.push(m[0]?(ix?`ما فائدة ${m[0]} ولكم مدة أستخدمه؟`:`What is ${m[0]} for, and how long should I take it?`):(ix?"ما فائدة كل دواء ولكم مدة أستخدمه؟":"What is each medicine for, and how long should I take it?"));
+    [["ما الأعراض الجانبية المتوقعة وما التي تستدعي التوقف والاتصال بك؟","Which side effects are expected, and which mean I should stop and call you?"],["هل تتعارض هذه الأدوية مع أدويتي الأخرى أو الطعام أو الكحول؟","Do these interact with my other medicines, food, or alcohol?"],["ماذا أفعل إذا نسيت جرعة؟","What should I do if I miss a dose?"],["متى أتوقع التحسن وهل أحتاج لمراجعة أو فحص متابعة؟","When should I expect improvement, and do I need a follow-up visit or test?"]].forEach(g=>Q.push(g[1-ix]));
+  }
+  $("qb").hidden=!R.length;
+  $("qL").innerHTML=qHtml(Q);
+}
+const AI={};
+const sig=()=>tab+lang+JSON.stringify(rows[tab].map(r=>[r.en||r.name,r.value,r.status]));
+function extras(){if($("res").hidden)return;const a=AI[sig()];renderPlus();renderWhy(a);renderQs(a);["ring","crit","pat","ddi","fx","sch","why","qb"].forEach(i=>rv($(i)));if(!a)enrich()}
+async function enrich(){
+  if(!KEY||!rows[tab].length)return;const fresh=Date.now()-cds().lastUse>=60000;if(fresh&&!aiOK())return;
+  const sg=sig(),head="You are a careful medical education assistant. Reply in "+(lang==="ar"?"Arabic":"English")+". "+profTxt();let p;
+  if(tab==="lab"){const ab=abn();
+    p=head+(ab.length?"Abnormal lab results:\n"+ab.map((r,i)=>i+": "+r.en+" = "+vs(r)+" (ref "+pk(r.range)+") "+r.status).join("\n")+"\n":"All lab results are normal.\n")+'Return ONLY JSON: {"items":[{"id":number,"causes":[3-5 short strings],"natural":[2-4 simple natural or lifestyle steps],"meds":[1-3 commonly used medicine options for a doctor to consider; generic names, NO doses, say when a prescription is needed]}],"questions":[exactly 5 specific questions the patient should ask their doctor, based on ALL the results]}. items must be [] if nothing is abnormal. Never diagnose.'}
+  else p=head+"Prescribed medicines: "+rows.rx.map(r=>[r.name,r.dose,pk(r.freq)].filter(Boolean).join(" ")).join("; ")+'.\nReturn ONLY JSON: {"items":[],"questions":[exactly 5 specific questions the patient should ask their doctor or pharmacist about these medicines]}.';
+  const bx=[$("why"),$("qb")];bx.forEach(b=>b.classList.add("ld"));
+  const r=await gem([{text:p}],KEY);
+  bx.forEach(b=>b.classList.remove("ld"));
+  if(r&&!Array.isArray(r)&&Array.isArray(r.questions)&&r.questions.length>=3&&sig()===sg){AI[sg]=r;if(fresh)aiUse();renderWhy(r);renderQs(r);bx.forEach(rv)}
+}
+const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1}):{observe:e=>e.classList.add("in"),unobserve(){}};
+const rv=e=>{e.classList.remove("in");void e.offsetWidth;io.observe(e)};
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest(".btn,.ib,.sum button");if(!b)return;const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height),x=document.createElement("span");x.className="rp";x.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;b.appendChild(x);setTimeout(()=>x.remove(),650)});
+document.addEventListener("pointermove",e=>{const c=e.target.closest&&e.target.closest(".c");if(c){const r=c.getBoundingClientRect();c.style.setProperty("--mx",e.clientX-r.left+"px");c.style.setProperty("--my",e.clientY-r.top+"px")}});
+// ---- smart analysis + OCR
+const P_LAB='Extract every lab test result from this medical report. Return ONLY a JSON array: [{"name":string,"name_ar":"Arabic name of the test","value":number,"unit":string,"range":"reference range as printed","low":number|null,"high":number|null}]. Return [] if none.';
+const P_RX='Extract every prescribed medication. Return ONLY a JSON array: [{"name":string,"dose":string,"form":string,"form_ar":string,"frequency":string,"frequency_ar":string,"duration":string,"duration_ar":string,"instructions":string,"instructions_ar":string}] where the _ar fields are the Arabic translation of the English field; empty string if unknown. Return [] if none.';
+const KEY="AQ.Ab8RN6LOf1qdAR8IO6fylqoB5VMDYr1pklpSYf-y-8ofReRZLg";
+const MODELS=["gemini-3.8-flash","gemini-3.7-flash"];
+async function gem(parts,key){
+  try{for(let round=0;round<2;round++){
+    for(const m of MODELS){const c=new AbortController(),t=setTimeout(()=>c.abort(),30000);
+      const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":generateContent?key="+encodeURIComponent(key),{method:"POST",headers:{"Content-Type":"application/json"},signal:c.signal,body:JSON.stringify({contents:[{parts}],generationConfig:{responseMimeType:"application/json"}})});
+      clearTimeout(t);if([404,500,502,503,504].includes(r.status))continue;if(!r.ok)return null;
+      const j=await r.json(),tx=j.candidates[0].content.parts.filter(p=>p.text&&!p.thought).map(p=>p.text).join("");
+      return JSON.parse(tx.replace(/```json|```/g,"").trim())}
+    await new Promise(k=>setTimeout(k,1500))}
+  }catch(e){}
+  return null}
+async function ocr(){
+  try{if(!window.Tesseract)await new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js";s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+    const r=await Tesseract.recognize(img.url,"eng+ara");$("inp").value=r.data.text;return r.data.text;
+  }catch(e){return ""}
+}
+// ---- UI
+const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let lang="ar",tab="lab",rows={lab:[],rx:[]},srcs={lab:"loc",rx:"loc"},filt="all",view="cards",img=null,mode="in",pend=false,me=null;
+const tr=k=>S[k][lang==="ar"?0:1],pk=x=>Array.isArray(x)?x[lang==="ar"?0:1]:(x||"");
+const SAMPLE={lab:`WBC 12.4 x10^3/uL (4.0-11.0)
+Hemoglobin 11.2 g/dL (12.0-16.0)
+Platelets 245 10^3/uL (150-450)
+Fasting Glucose 112 mg/dL (70-99)
+HbA1c 6.1 % (4.0-5.6)
+Creatinine 0.9 mg/dL (0.6-1.3)
+Potassium 5.4 mmol/L (3.5-5.1)
+ALT 62 U/L (7-56)
+Total Cholesterol 232 mg/dL (<200)
+LDL 151 mg/dL (<100)
+HDL 38 mg/dL (>40)
+TSH 2.1 uIU/mL (0.4-4.5)
+Vitamin D, 25-Hydroxy 18.4 ng/mL (30-100)
+Ferritin 14 ng/mL (20-300)
+CRP 8.2 mg/L (0-5)
+Urinalysis
+Glucose Negative
+Protein 1+
+Nitrite Negative
+HBsAg Non-reactive`,rx:`1. Tab. Augmentin 1g BID x 7 days after meals
+2. Cap. Omeprazole 20 mg OD before breakfast for 14 days
+3. Tab. Paracetamol 500mg q8h PRN fever
+4. Tab. Metformin 500 mg 1-0-1 with food
+5. Syp. Cetirizine 5 mg/5ml once daily at bedtime for 5 days
+6. Tab. Ibuprofen 400mg TID after meals for 5 days
+7. Tab. Aspirin 81 mg OD`};
+function applyLang(){
+  document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";$("lg").textContent=lang==="ar"?"عربي":"EN";
+  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=tr(e.dataset.i));
+  document.querySelectorAll("[data-p]").forEach(e=>e.placeholder=tr(e.dataset.p));
+  document.querySelectorAll("[data-t]").forEach(e=>{e.title=tr(e.dataset.t);e.setAttribute("aria-label",e.title)});
+  render(false);extras();renderHist();
+}
+function countUp(el){const n=parseFloat(el.dataset.n),dec=(String(el.dataset.n).split(".")[1]||"").length;
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;const t0=performance.now();
+  (function f(t){const k=Math.min(1,(t-t0)/700);el.textContent=(n*(1-Math.pow(1-k,3))).toFixed(dec);if(k<1)requestAnimationFrame(f)})(t0)}
+function render(anim){
+  if($("res").hidden)return;
+  const R=rows[tab],t=pk,q=$("q").value.trim().toLowerCase(),isL=tab==="lab";
+  $("vw").hidden=!isL;$("sum").classList.toggle("pop",!!anim);
+  if(isL){
+    const cn=s=>R.filter(r=>r.status===s).length;
+    $("sum").innerHTML=[["all",R.length],["Normal",cn("Normal")],["High",cn("High")],["Low",cn("Low")]].map(([k,n])=>`<button data-f="${k}" class="${filt===k?"on":""}"><b class="cnt" data-n="${n}">${n}</b><span class="${k==="all"?"":"badge "+k}">${tr(k)}</span></button>`).join("");
+    $("sum").querySelectorAll("button").forEach(b=>b.onclick=()=>{filt=b.dataset.f;render(false)});
+  }else $("sum").innerHTML=`<button class="on" style="grid-column:1/-1"><b class="cnt" data-n="${R.length}">${R.length}</b>${tr("meds")}</button>`;
+  const list=R.filter(r=>(!isL||filt==="all"||r.status===filt)&&(!q||(r.en||r.name).toLowerCase().includes(q)||(r.ar||"").includes(q)));
+  const ix=lang==="ar"?0:1;let h="";
+  if(isL&&view==="table"){
+    const c=S.cols[ix];
+    h=`<div class="tw"><table><thead><tr>${c.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${list.map(r=>`<tr><td><b>${esc(ix?r.en:r.ar)}</b></td><td><span class="num">${r.q?esc(r.qv):r.value}</span></td><td><span class="num">${esc(r.unit)}</span></td><td><span class="num">${esc(pk(r.range))}</span></td><td><span class="badge ${r.status}">${lbl(r)}</span></td></tr>`).join("")}</tbody></table></div>`;
+  }else if(isL&&view==="groups"){h=groupsHTML(list,ix)}else h=`<div class="list">`+list.map((r,i)=>{
+    if(isL)return labCard(r,i,ix);
+    const ct=r.cat?`<span class="chip">${DC[r.cat][1-ix]}</span>`:"";
+    return `<article class="c rise" style="--i:${i}"><div class="t"><b>${esc(r.name)}</b>${ct}</div><div class="rx">${r.dose||r.form?`<div>💊 <span class="num">${esc(r.dose||"")}</span> ${esc(pk(r.form))}</div>`:""}${r.freq?`<div>🕒 ${esc(pk(r.freq))}</div>`:""}${r.dur?`<div>📅 ${esc(pk(r.dur))}</div>`:""}${r.ins?`<div>🍽 ${esc(pk(r.ins))}</div>`:""}</div></article>`}).join("")+`</div>`;
+  $("out").innerHTML=h;$("none").hidden=list.length>0;
+  $("src").textContent=R.length?tr("src")+(srcs[tab]==="gem"?tr("gem"):tr("loc")):"";
+  if(anim){document.querySelectorAll(".cnt").forEach(countUp);extras()}
+}
+$("go").onclick=async()=>{
+  const text=$("inp").value.trim();if(!text&&!img)return;
+  const b=$("go");b.disabled=true;b.classList.add("busy");$("pvx").classList.add("scan");$("st").innerHTML='<i class="sp"></i>'+tr("busy");
+  readProf();const key=aiOK()?KEY:"";let r=null,src="loc";
+  if(key){
+    const p=tab==="lab"?P_LAB:P_RX;
+    const a=await gem(img?[{inlineData:{mimeType:"image/jpeg",data:img.b64}},{text:p}]:[{text:p+"\n\n"+text}],key);
+    if(Array.isArray(a)&&a.length){const m=tab==="lab"?mapLab(a):mapRx(a);if(m.length){r=m;src="gem";aiUse()}}
+  }
+  if(!r){
+    let tx=text;if(!tx&&img){$("st").innerHTML='<i class="sp"></i>'+tr("ocr");tx=await ocr()}
+    if(!tx){$("st").textContent=tr("fail");b.disabled=false;idle();return}
+    r=tab==="lab"?parseLab(tx):parseRx(tx);
+  }
+  if(tab==="lab")addCalc(r);rows[tab]=r;srcs[tab]=src;filt="all";$("q").value="";$("st").textContent="";$("res").hidden=false;b.disabled=false;idle();
+  render(true);$("res").scrollIntoView({behavior:"smooth"});
+};
+const idle=()=>{$("go").classList.remove("busy");$("pvx").classList.remove("scan")};
+function setFile(f){
+  if(!f)return;const rd=new FileReader();
+  rd.onerror=()=>{$("st").textContent=tr("imgbad")};
+  rd.onload=()=>{const im=new Image();
+    im.onerror=()=>{$("st").textContent=tr("imgbad")};
+    im.onload=()=>{const k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+      const d=c.toDataURL("image/jpeg",.85);img={b64:d.split(",")[1],url:d};$("pv").src=d;$("pv").hidden=false;$("st").textContent="✓ "+tr("imgok")};
+    im.src=rd.result};
+  rd.readAsDataURL(f);
+}
+$("file").onchange=e=>{setFile(e.target.files[0]);e.target.value=""};
+$("cam_in").onchange=e=>{setFile(e.target.files[0]);e.target.value=""};
+$("cam").onclick=()=>$("cam_in").click();
+(()=>{const h=document.querySelector(".hero");["💊","🧬","🩺","➕","🧪","❤️","💉"].forEach((e,i)=>{const s=document.createElement("span");s.className="fl";s.textContent=e;s.style.cssText=`left:${8+i*13}%;animation-duration:${9+i*1.7}s;animation-delay:${-i*2.3}s;font-size:${18+i%3*8}px`;h.appendChild(s)})})();
+["dragover","dragenter"].forEach(n=>$("drop").addEventListener(n,e=>{e.preventDefault();$("drop").classList.add("dg")}));
+["dragleave","drop"].forEach(n=>$("drop").addEventListener(n,e=>{e.preventDefault();$("drop").classList.remove("dg");if(n==="drop")setFile(e.dataTransfer.files[0])}));
+$("smp").onclick=()=>{$("inp").value=SAMPLE[tab];img=null;$("pv").hidden=true};
+$("clr").onclick=()=>{$("inp").value="";img=null;$("pv").hidden=true;$("file").value="";rows[tab]=[];$("res").hidden=true;$("st").textContent=""};
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
+  tab=b.dataset.tab;document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  $("inp").value=SAMPLE[tab];img=null;$("pv").hidden=true;$("st").textContent="";$("q").value="";filt="all";
+  $("res").hidden=!rows[tab].length;render(true)});
+$("q").oninput=()=>render(false);
+$("vw").onclick=()=>{view=view==="cards"?"groups":view==="groups"?"table":"cards";$("vw").textContent={cards:"☰",groups:"🗂",table:"▦"}[view];render(true)};
+$("lg").onclick=()=>{lang=lang==="ar"?"en":"ar";store.set("mc_lang",lang);applyLang()};
+$("th").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+
+// ===== profile, ranges, critical values, qualitative, calculated
+let prof={age:null,sex:"",allergy:""};
+const SXR={Hemoglobin:[[13.5,17.5],[12,15.5]],Hematocrit:[[41,53],[36,46]],RBC:[[4.5,5.9],[4.1,5.1]],Ferritin:[[24,336],[11,307]],Creatinine:[[.74,1.35],[.59,1.04]],ALT:[[10,55],[7,35]],AST:[[8,48],[8,43]],GGT:[[8,61],[5,36]],"Uric Acid":[[3.4,7],[2.4,6]],HDL:[[40,100],[50,100]],Testosterone:[[300,1000],[15,70]],Iron:[[65,176],[50,170]],ESR:[[0,15],[0,20]],CK:[[39,308],[26,192]],"Transferrin Sat.":[[20,50],[15,50]]};
+const PED={Hemoglobin:[11.5,15.5],WBC:[5,15],Creatinine:[.3,.7],ALP:[100,350]},ELD={TSH:[.4,6]};
+function prng(en){let o=null;const k=prof.sex==="m"?0:prof.sex==="f"?1:-1;if(k>=0&&SXR[en])o=SXR[en][k];if(prof.age!=null){if(prof.age<12&&PED[en])o=PED[en];if(prof.age>=65&&ELD[en])o=ELD[en]}return o}
+function readProf(){const a=parseInt($("age").value,10);prof={age:isFinite(a)&&a>0&&a<121?a:null,sex:$("sex").value,allergy:$("alg").value};store.set("mc_prof",JSON.stringify(prof))}
+const alg=()=>prof.allergy.toLowerCase().split(/[,،;\n]+/).map(x=>x.trim()).filter(Boolean);
+const profTxt=()=>prof.age!=null||prof.sex?"Patient: "+(prof.sex==="m"?"male":prof.sex==="f"?"female":"")+(prof.age!=null?", "+prof.age+" years old":"")+". ":"";
+const CR={Potassium:[2.8,6.2,/mmol|meq/i],Sodium:[120,160,/mmol|meq/i],Glucose:[40,450,/mg/i],"Random Glucose":[40,450,/mg/i],Calcium:[6.5,13,/mg/i],Hemoglobin:[7,20,/g\/dl/i],WBC:[2,30,/10|k|x/i],Platelets:[20,1000,/10|k|x/i],Creatinine:[0,4,/mg/i],INR:[0,5,/./],"Troponin I":[0,.4,/ng/i],"Total Bilirubin":[0,15,/mg/i],Magnesium:[1,4.9,/mg/i]};
+const critOf=r=>{const c=CR[r.en];if(!c||r.q||typeof r.value!=="number"||!c[2].test(r.unit||""))return 0;return c[0]&&r.value<c[0]?"L":c[1]&&r.value>c[1]?"H":0};
+const lbl=r=>r.q&&r.status==="High"?(lang==="ar"?"إيجابي":"Positive"):tr(r.status);
+const vs=r=>r.q?r.qv:r.value+" "+r.unit;
+const QL=`Urine Glucose|سكر البول|urine glucose,urine sugar,glucose (urine),glucose|1|URN
+Urine Protein|بروتين البول|urine protein,protein|1|URN
+Ketones|الكيتونات|ketone bodies,ketones,ketone|1|URN
+Urine Blood|دم في البول|occult blood,blood|1|URN
+Urine Leukocytes|كريات بيضاء بالبول (إستراز)|leukocyte esterase,leukocytes,leucocytes|1|URN
+Nitrite|النتريت|nitrites,nitrite|1|URN
+Urine Bilirubin|بيليروبين البول|bilirubin|1|URN
+Urobilinogen|اليوروبيلينوجين|urobilinogen|1|URN
+HBsAg|التهاب الكبد B (HBsAg)|hepatitis b surface antigen,hbsag,hbs ag|0|SER
+Anti-HCV|ضد التهاب الكبد C|anti-hcv,hcv antibody,hcv ab,hcv|0|SER
+HIV|فيروس HIV|hiv 1/2,hiv|0|SER
+H. pylori|جرثومة المعدة|helicobacter pylori,h. pylori,h pylori,helicobacter|0|SER
+Stool Occult Blood|دم خفي في البراز|stool occult blood,occult blood stool,fobt,occult blood|0|SER
+COVID-19|كوفيد-19|sars-cov-2,covid-19,covid|0|SER`.split("\n").map(l=>{const f=l.split("|");return {en:f[0],ar:f[1],re:f[2].split(",").map(a=>new RegExp("(?<![\\p{L}\\p{N}])"+esR(a)+"(?![\\p{L}])","iu")),u:f[3]==="1",g:f[4]}});
+const NG=/(?:non[- ]?reactive|not detected|(?<![a-z])(?:negative|neg|nil|absent|normal)(?![a-z])|سلبي|سالب|غير موجود|طبيعي)/i;
+const PS=/(?:(?<![a-z])(?:positive|pos|reactive|detected|present|trace|abnormal|increased)(?![a-z])|[1-4]\+|(?<![\w+])\+{1,4}(?![\w+])|إيجابي|موجب|موجود)/i;
+function qual(line,out,inU){
+  for(const e of QL){if(e.u&&!inU)continue;let m=null;for(const re of e.re){m=re.exec(line);if(m)break}if(!m)continue;
+    if(out.some(x=>x.en===e.en))return false;
+    const rest=line.slice(m.index+m[0].length);
+    if(/\d+(?:\.\d+)?\s*(?:mg|g|mmol|meq|u\/l|iu|%|ml|µ|x10|\/hpf)/i.test(rest))return false;
+    const ng=NG.exec(rest),ps=PS.exec(rest);if(!ng&&!ps)return false;
+    out.push({en:e.en,ar:e.ar,g:e.g,q:true,qv:(ng||ps)[0].trim(),unit:"",range:["سلبي","Negative"],lo:0,hi:0,value:null,status:!ng&&ps?"High":"Normal"});return true}
+  return false}
+function addCalc(R){
+  const g=n=>R.find(r=>r.en===n&&!r.q&&typeof r.value==="number"),add=(en,ar,v,unit,lo,hi,rng)=>{if(!isFinite(v))return;v=+v.toFixed(2);R.push({en,ar,g:"CALC",calc:true,value:v,unit,range:rng,lo,hi,status:cls(v,lo,hi)})};
+  const cr=g("Creatinine"),gl=g("Glucose"),ins=g("Insulin"),tg=g("Triglycerides"),hd=g("HDL"),tc=g("Total Cholesterol");
+  if(cr&&!g("eGFR")&&/mg/i.test(cr.unit)&&prof.age>=18&&prof.sex){const f=prof.sex==="f",x=cr.value/(f?.7:.9);add("eGFR (calculated)","معدل الترشيح (محسوب)",142*Math.pow(Math.min(x,1),f?-.241:-.302)*Math.pow(Math.max(x,1),-1.2)*Math.pow(.9938,prof.age)*(f?1.012:1),"mL/min/1.73m²",90,1e9,"≥ 90")}
+  if(gl&&ins&&/mg/i.test(gl.unit))add("HOMA-IR","مقاومة الأنسولين HOMA-IR",gl.value*ins.value/405,"",0,2.5,"< 2.5");
+  if(tg&&hd&&hd.value>0)add("TG/HDL ratio","نسبة TG/HDL",tg.value/hd.value,"",0,3,"< 3");
+  if(tc&&hd&&!g("Non-HDL"))add("Non-HDL (calculated)","الكوليسترول غير HDL (محسوب)",tc.value-hd.value,"mg/dL",0,130,"< 130");
+  if(tc&&hd&&tg&&!g("LDL")&&tg.value<400)add("LDL (calculated)","LDL (محسوب)",tc.value-hd.value-tg.value/5,"mg/dL",0,100,"< 100")}
+// ===== cards, groups
+const GI={CBC:"🩸",SUG:"🍬",KID:"💧",LYT:"⚡",PRO:"🧬",LIV:"🍂",LIP:"🧈",THY:"🦋",VIT:"☀️",FE:"🔩",HRT:"❤️",INF:"🔥",COA:"🩹",HOR:"⚗️",URN:"💦",SER:"🦠",CALC:"🧮"};
+function labCard(r,i,ix){
+  const cc=critOf(r)?" cc":"",hd=`<div class="t"><div><b>${esc(ix?r.en:r.ar)}</b><small>${G[r.g][1-ix]}</small></div><span class="badge ${r.status}">${lbl(r)}</span></div>`;
+  if(r.q)return `<article class="c rise${cc}" style="--i:${i}">${hd}<div class="v">${esc(r.qv)}</div><div class="mut">${tr("ref")}: <span class="num">${esc(pk(r.range))}</span></div></article>`;
+  const p=r.hi>=1e8?(r.value>=r.lo?60:15):Math.max(4,Math.min(96,25+(r.value-r.lo)/((r.hi-r.lo)||1)*50));
+  return `<article class="c rise${cc}" style="--i:${i}">${hd}<div class="v"><span class="num cnt" data-n="${r.value}">${r.value}</span> <span class="u num">${esc(r.unit)}</span></div><div class="bar"><i class="z"></i><i class="m ${r.status}" style="--p:${p}%"></i></div><div class="mut">${tr("ref")}: <span class="num">${esc(pk(r.range))}</span>${r.adj?" 👤":""}</div></article>`}
+function groupsHTML(list,ix){let n=0;return Object.keys(G).filter(g=>list.some(r=>r.g===g)).map(g=>{const it=list.filter(r=>r.g===g);return `<h4 class="gh rise" style="--i:${n}">${GI[g]||""} ${G[g][1-ix]} <span class="mut">(${it.length})</span></h4><div class="list">${it.map(r=>labCard(r,n++,ix)).join("")}</div>`}).join("")}
+// ===== patterns, drug effects, interactions, schedule
+const st=n=>{const r=rows.lab.find(x=>x.en===n&&!x.q);return r?(r.status==="High"?"H":r.status==="Low"?"L":"N"):null},vl=n=>{const r=rows.lab.find(x=>x.en===n&&typeof x.value==="number");return r?r.value:null};
+const dm=()=>{const a=vl("HbA1c"),g=vl("Glucose");return (a!=null&&a>=6.5)||(g!=null&&g>=126)?2:(a!=null&&a>=5.7)||(g!=null&&g>=100)?1:0};
+const PT=[
+[()=>(st("Hemoglobin")==="L"||st("Hematocrit")==="L")&&(st("MCV")==="L"||st("Ferritin")==="L"||st("Iron")==="L"),"🩸","نمط يوحي بنقص الحديد (هيموغلوبين منخفض مع مؤشرات حديد أو حجم كريات منخفضة).","Pattern suggesting iron deficiency (low hemoglobin with low iron indices or small red cells)."],
+[()=>st("Hemoglobin")==="L"&&st("MCV")==="H","🧪","هيموغلوبين منخفض مع كريات كبيرة: يُنصح بفحص B12 والفولات.","Low hemoglobin with large red cells: consider checking B12 and folate."],
+[()=>st("Ferritin")==="L"&&st("Hemoglobin")==="N","🔩","الفيريتين منخفض مع هيموغلوبين طبيعي: نقص حديد مبكر محتمل.","Low ferritin with normal hemoglobin: possible early iron deficiency."],
+[()=>st("WBC")==="L"&&st("Hemoglobin")==="L"&&st("Platelets")==="L","⚠️","انخفاض الخلايا البيضاء والحمراء والصفائح معاً: راجع الطبيب قريباً.","White cells, red cells and platelets are all low: see a doctor soon."],
+[()=>st("WBC")==="H"&&st("CRP")==="H","🔥","ارتفاع الكريات البيضاء مع CRP يدعم وجود التهاب أو عدوى.","High WBC with high CRP supports infection or inflammation."],
+[()=>dm()===2,"🍬","قيم السكر ضمن مدى السكري؛ التشخيص يحتاج تأكيداً من الطبيب.","Sugar values are in the diabetic range; diagnosis needs confirmation by a doctor."],
+[()=>dm()===1,"🍬","قيم السكر ضمن مدى مقدمات السكري.","Sugar values are in the prediabetes range."],
+[()=>(st("Glucose")==="H"||st("HbA1c")==="H")&&st("Triglycerides")==="H"&&st("HDL")==="L","⚡","ارتفاع السكر والدهون الثلاثية مع انخفاض HDL: ملامح المتلازمة الأيضية.","High sugar, high triglycerides and low HDL: features of metabolic syndrome."],
+[()=>st("LDL")==="H"&&st("HDL")==="L","❤️","ارتفاع LDL مع انخفاض HDL يرفع خطر أمراض القلب.","High LDL with low HDL raises heart-disease risk."],
+[()=>st("ALT")==="H"&&st("AST")==="H","🍂","ارتفاع ALT وAST معاً يوحي بإجهاد خلايا الكبد (كبد دهني، التهاب، أدوية...).","High ALT and AST together suggest liver-cell stress (fatty liver, hepatitis, medicines...)."],
+[()=>st("ALP")==="H"&&st("GGT")==="H","🍂","ارتفاع ALP وGGT معاً يوحي بمشكلة في القنوات الصفراوية.","High ALP and GGT together suggest a bile-duct pattern."],
+[()=>(st("Creatinine")==="H"&&(st("BUN")==="H"||st("Urea")==="H"))||(vl("eGFR (calculated)")!=null&&vl("eGFR (calculated)")<60),"💧","مؤشرات الكلى غير مطمئنة؛ راجع الطبيب واشرب السوائل وتجنب مسكنات NSAIDs.","Kidney markers are concerning; see a doctor, hydrate, and avoid NSAIDs."],
+[()=>st("TSH")==="H"&&st("Free T4")==="L","🦋","TSH مرتفع مع T4 منخفض: نمط خمول الغدة الدرقية.","High TSH with low free T4: underactive-thyroid pattern."],
+[()=>st("TSH")==="H"&&st("Free T4")==="N","🦋","TSH مرتفع مع T4 طبيعي: خمول درقي تحت سريري محتمل.","High TSH with normal free T4: possible subclinical hypothyroidism."],
+[()=>st("TSH")==="L"&&st("Free T4")==="H","🦋","TSH منخفض مع T4 مرتفع: نمط فرط نشاط الغدة.","Low TSH with high free T4: overactive-thyroid pattern."],
+[()=>st("Hematocrit")==="H"&&(st("Hemoglobin")==="H"||st("BUN")==="H"||st("Urea")==="H"),"💦","قد يدل على الجفاف؛ اشرب السوائل وأعد الفحص.","May indicate dehydration; hydrate and recheck."],
+[()=>st("Vitamin D")==="L"&&st("PTH")==="H","☀️","نقص فيتامين D مع ارتفاع PTH: نقص مؤثر على العظام.","Low vitamin D with high PTH: a clinically relevant deficiency for bones."],
+[()=>rows.lab.some(r=>r.q&&r.status==="High"),"🦠","ظهرت نتيجة إيجابية في فحوصات نوعية (بول/سيرولوجيا): ناقشها مع طبيبك.","A qualitative test (urine/serology) is positive: discuss it with your doctor."]];
+const DFX=[[["metformin"],[["Vitamin B12","L"]],"الميتفورمين قد يخفض فيتامين B12 (يُنصح بمتابعته).","Metformin can lower vitamin B12 (worth monitoring)."],
+[["atorvastatin","rosuvastatin","simvastatin"],[["ALT","H"],["AST","H"],["CK","H"]],"الستاتينات قد ترفع إنزيمات الكبد أو CK قليلاً.","Statins can mildly raise liver enzymes or CK."],
+[["omeprazole","esomeprazole","pantoprazole","lansoprazole"],[["Vitamin B12","L"],["Magnesium","L"],["Iron","L"]],"مثبطات الحموضة قد تخفض B12 والمغنيسيوم والحديد مع الاستخدام الطويل.","Acid reducers may lower B12, magnesium and iron with long use."],
+[["furosemide","hydrochlorothiazide"],[["Potassium","L"],["Sodium","L"],["Magnesium","L"],["Uric Acid","H"]],"مدرات البول قد تخفض البوتاسيوم والصوديوم وترفع حمض اليوريك.","Diuretics may lower potassium/sodium and raise uric acid."],
+[["lisinopril","enalapril","losartan","valsartan","spironolactone"],[["Potassium","H"],["Creatinine","H"]],"هذه الأدوية قد ترفع البوتاسيوم والكرياتينين.","These medicines can raise potassium and creatinine."],
+[["ibuprofen","diclofenac","naproxen","celecoxib"],[["Creatinine","H"],["BUN","H"]],"مسكنات NSAIDs قد ترفع الكرياتينين وتضر الكلى.","NSAID painkillers can raise creatinine and harm the kidneys."],
+[["prednisolone","prednisone","dexamethasone"],[["Glucose","H"],["WBC","H"]],"الكورتيزون قد يرفع السكر والكريات البيضاء.","Steroids can raise blood sugar and white cells."],
+[["levothyroxine"],[["TSH","H"],["TSH","L"]],"الليفوثيروكسين يؤثر على TSH ويحتاج متابعة دورية.","Levothyroxine affects TSH and needs periodic monitoring."],
+[["allopurinol"],[["ALT","H"]],"الألوبيورينول قد يرفع إنزيمات الكبد نادراً.","Allopurinol can rarely raise liver enzymes."]];
+const CL={nsaid:["ibuprofen","diclofenac","naproxen","celecoxib"],warf:["warfarin"],aspir:["aspirin","clopidogrel"],ras:["lisinopril","enalapril","losartan","valsartan"],diur:["furosemide","hydrochlorothiazide"],ksp:["spironolactone"],stat:["atorvastatin","rosuvastatin","simvastatin"],clar:["clarithromycin"],ssri:["sertraline","escitalopram"],trm:["tramadol"],bz:["alprazolam","diazepam"],gab:["gabapentin","pregabalin"],ppi:["omeprazole","esomeprazole","pantoprazole","lansoprazole"],clop:["clopidogrel"],qn:["ciprofloxacin","levofloxacin","doxycycline"],min:["ferrous","calcium"],levo:["levothyroxine"],para:["paracetamol","acetaminophen","panadol"],wint:["metronidazole","ciprofloxacin","clarithromycin","azithromycin"]};
+const DD=[["warf","nsaid",2,"خطر نزيف مرتفع عند الجمع بين الوارفارين ومسكنات NSAIDs.","Higher bleeding risk when warfarin is combined with NSAIDs."],
+["warf","aspir",2,"الوارفارين مع الأسبرين/كلوبيدوجريل يزيد خطر النزيف.","Warfarin with aspirin/clopidogrel increases bleeding risk."],
+["warf","wint",2,"هذا المضاد الحيوي قد يرفع تأثير الوارفارين (INR).","This antibiotic can raise the effect of warfarin (INR)."],
+["nsaid","aspir",2,"الجمع بين NSAIDs والأسبرين يزيد خطر نزيف المعدة ويضعف حماية الأسبرين للقلب.","NSAIDs plus aspirin raise stomach-bleeding risk and can blunt aspirin's heart protection."],
+["nsaid","ras",1,"NSAIDs مع أدوية الضغط (ACE/ARB) قد تضر الكلى.","NSAIDs with ACE/ARB blood-pressure medicines may harm the kidneys."],
+["nsaid","diur",1,"NSAIDs مع مدرات البول قد تضر الكلى وتضعف مفعول المدر.","NSAIDs with diuretics may harm the kidneys and weaken the diuretic."],
+["ras","ksp",2,"خطر ارتفاع البوتاسيوم عند الجمع بين ACE/ARB وسبيرونولاكتون.","Risk of high potassium when ACE/ARB is combined with spironolactone."],
+["stat","clar",2,"كلاريثروميسين يرفع مستوى الستاتين ويزيد خطر آلام وتلف العضلات.","Clarithromycin raises statin levels and increases muscle-injury risk."],
+["ssri","trm",2,"خطر متلازمة السيروتونين عند الجمع بين مضاد اكتئاب SSRI وترامادول.","Serotonin-syndrome risk when an SSRI is combined with tramadol."],
+["trm","bz",2,"ترامادول مع البنزوديازيبين قد يسبب نعاساً شديداً وضعف تنفس.","Tramadol with a benzodiazepine can cause heavy sedation and slowed breathing."],
+["trm","gab",1,"ترامادول مع جابابنتين/بريجابالين يزيد النعاس.","Tramadol with gabapentin/pregabalin increases drowsiness."],
+["bz","gab",1,"البنزوديازيبين مع جابابنتين/بريجابالين يزيد النعاس.","A benzodiazepine with gabapentin/pregabalin increases drowsiness."],
+["ppi","clop",1,"بعض مثبطات الحموضة (مثل أوميبرازول) تضعف مفعول كلوبيدوجريل.","Some acid reducers (e.g. omeprazole) can weaken clopidogrel."],
+["qn","min",1,"الحديد/الكالسيوم يقلل امتصاص هذا المضاد الحيوي؛ باعد بينهما بساعتين على الأقل.","Iron/calcium reduces absorption of this antibiotic; separate them by at least 2 hours."],
+["levo","min",1,"الحديد/الكالسيوم يقلل امتصاص الليفوثيروكسين؛ باعد بينهما 4 ساعات.","Iron/calcium reduces levothyroxine absorption; separate them by 4 hours."]];
+const AG={penicillin:["amoxicillin","augmentin","ampicillin"],"بنسلين":["amoxicillin","augmentin","ampicillin"],cephalosporin:["cefuroxime","ceftriaxone","cephalexin","cefixime"],sulfa:["trimethoprim","sulfamethoxazole"],"سلفا":["trimethoprim","sulfamethoxazole"],nsaid:["ibuprofen","diclofenac","naproxen","celecoxib","aspirin"],aspirin:["aspirin"],"أسبرين":["aspirin"],"اسبرين":["aspirin"],quinolone:["ciprofloxacin","levofloxacin"],macrolide:["azithromycin","clarithromycin"]};
+const en2=x=>Array.isArray(x)?x[1]:(x||"");
+function slots(f){const t=en2(f).toLowerCase();if(/prn|needed/.test(t))return "prn";if(/week/.test(t))return "wk";if(/bedtime|night/.test(t))return [0,0,0,1];
+  let n=(t.match(/(\d+)\s*times/)||[])[1];n=n?+n:/four|qid|every 6/.test(t)?4:/three|thrice|tid|every 8/.test(t)?3:/twice|bid|every 12/.test(t)?2:/once|daily|\bod\b/.test(t)?1:0;
+  return n===1?[1,0,0,0]:n===2?[1,0,1,0]:n===3?[1,1,1,0]:n>=4?[1,1,1,1]:null}
+function renderPlus(){
+  const isL=tab==="lab",R=rows[tab],ix=lang==="ar"?0:1,li=(a)=>a.map((p,i)=>`<li class="rise" style="--i:${i}"><span class="pi">${p[0]}</span><span>${esc(p[1])}</span></li>`).join("");
+  ["ring","crit","pat","ddi","fx","sch"].forEach(i=>$(i).hidden=true);
+  if(isL){
+    const nq=R.filter(r=>!r.calc),n=nq.length,ok=nq.filter(r=>r.status==="Normal").length;
+    if(n){$("ring").hidden=false;$("rtx").innerHTML=`<b>${ok}/${n}</b>${tr("ringN")}`;$("rt").textContent=Math.round(ok/n*100)+"%";const f=$("rf");f.style.stroke=ok/n>=.8?"var(--ok)":ok/n>=.5?"var(--lo)":"var(--hi)";f.style.strokeDashoffset=264;setTimeout(()=>f.style.strokeDashoffset=264*(1-ok/n),80)}
+    const cr=R.filter(r=>critOf(r));
+    if(cr.length){$("crit").hidden=false;$("crit").innerHTML=`<b>⚠️ ${tr("critT")}</b><ul>${cr.map(r=>`<li>${esc(ix?r.en:r.ar)}: <span class="num">${r.value} ${esc(r.unit)}</span> (${critOf(r)==="H"?tr("High"):tr("Low")})</li>`).join("")}</ul>`}
+    const P=PT.filter(p=>{try{return p[0]()}catch(e){return false}}).map(p=>[p[1],p[2+ix]]);
+    rows.rx.forEach(m=>DFX.forEach(f=>{if(f[0].some(d=>String(m.name).toLowerCase().includes(d))&&f[1].some(([t,d])=>st(t)===d))P.push(["💊",m.name+": "+f[2+ix]])}));
+    if(P.length){$("pat").hidden=false;$("patL").innerHTML=li(P)}
+  }else if(R.length){
+    const nm=r=>String(r.name||"").toLowerCase(),has=c=>R.filter(r=>CL[c].some(d=>nm(r).includes(d))),W=[];
+    alg().forEach(t=>{const h=R.filter(r=>nm(r).includes(t)||Object.keys(AG).some(k=>t.includes(k)&&AG[k].some(d=>nm(r).includes(d))));if(h.length)W.push([3,"🚫",tr("alAl")+": "+t+" ↔ "+h.map(r=>r.name).join(", ")])});
+    DD.forEach(d=>{const a=has(d[0]),b=has(d[1]);if(a.length&&b.length)W.push([d[2],d[2]>1?"⚠️":"ℹ️",[...new Set([...a,...b].map(r=>r.name))].join(" + ")+": "+d[3+ix]])});
+    ["nsaid","ppi","stat","bz","para"].forEach(c=>{const h=has(c);if(h.length>1)W.push([2,"♻️",h.map(r=>r.name).join(" + ")+": "+tr("dup")])});
+    W.sort((a,b)=>b[0]-a[0]);$("ddi").hidden=false;$("ddiL").innerHTML=li(W.length?W.map(w=>[w[1],w[2]]):[["✅",tr("ddiOk")]]);
+    const F=[];DFX.forEach(f=>R.forEach(r=>{if(f[0].some(d=>nm(r).includes(d)))F.push(["🧪",r.name+": "+f[2+ix]])}));
+    if(F.length){$("fx").hidden=false;$("fxL").innerHTML=li(F)}
+    const cell=r=>{const s=slots(r.freq);return `<tr><td><b>${esc(r.name)}</b>${r.dose?`<br><small class="mut num">${esc(r.dose)}</small>`:""}</td>${Array.isArray(s)?s.map(o=>`<td>${o?'<span class="ck">✔</span>':""}</td>`).join(""):`<td colspan="4" class="mut">${s==="prn"?tr("prn"):s==="wk"?tr("wk"):"—"}</td>`}</tr>`};
+    $("sch").hidden=false;$("schTb").innerHTML=`<thead><tr><th>${tr("sch0")}</th>${[1,2,3,4].map(k=>`<th>${tr("sch"+k)}</th>`).join("")}</tr></thead><tbody>${R.map(cell).join("")}</tbody>`;
+  }
+}
+// ===== history, export, voice, font
+const HS={get:()=>{try{return JSON.parse(localStorage.getItem("mc_hist"))||[]}catch(e){return[]}},set:v=>{try{localStorage.setItem("mc_hist",JSON.stringify(v.slice(0,60)))}catch(e){}}};
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2300)}
+function saveHist(){const R=rows[tab];if(!R.length)return;const A=HS.get();A.unshift({id:Date.now(),t:tab,d:new Date().toISOString(),rows:R});HS.set(A);toast(tr("saved"));renderHist()}
+function chart(P){
+  const W=320,H=150,pd=26,last=P[P.length-1],lo=last.lo,hi=last.hi<1e8?last.hi:null,vs2=P.map(p=>p.v);
+  let a=Math.min(...vs2,lo),b=Math.max(...vs2,hi==null?-1e9:hi);if(a===b){a-=1;b+=1}const sp=b-a,X=i=>pd+(P.length===1?0:i*(W-2*pd)/(P.length-1)),Y=v=>H-pd-(v-a)/sp*(H-2*pd),y1=Y(hi==null?b:hi),y2=Y(lo),loc=lang==="ar"?"ar":"en";
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img"><rect x="${pd}" y="${Math.min(y1,y2)}" width="${W-2*pd}" height="${Math.abs(y2-y1)}" class="band"/><polyline points="${P.map((p,i)=>X(i)+","+Y(p.v)).join(" ")}" class="ln" pathLength="1"/>${P.map((p,i)=>`<circle cx="${X(i)}" cy="${Y(p.v)}" r="4.5" class="pt" style="animation-delay:${.6+i*.12}s"/><text x="${X(i)}" y="${Y(p.v)-9}" text-anchor="middle" class="tx">${p.v}</text><text x="${X(i)}" y="${H-6}" text-anchor="middle" class="tx2">${new Date(p.d).toLocaleDateString(loc,{day:"numeric",month:"short"})}</text>`).join("")}</svg>`}
+function renderHist(){
+  const A=HS.get(),box=$("hist");box.hidden=!A.length;if(!A.length)return;
+  const ix=lang==="ar"?0:1,m={};
+  A.filter(a=>a.t==="lab").reverse().forEach(a=>a.rows.forEach(r=>{if(r.q||typeof r.value!=="number")return;(m[r.en]=m[r.en]||[]).push({d:a.d,v:r.value,lo:r.lo,hi:r.hi,ar:r.ar})}));
+  const names=Object.keys(m).filter(k=>m[k].length>1),prev=$("hsel")?$("hsel").value:"",cur=names.includes(prev)?prev:names[0];
+  $("hC").innerHTML=names.length?`<select id="hsel" class="btn">${names.map(k=>`<option value="${esc(k)}"${k===cur?" selected":""}>${esc(ix?k:m[k][0].ar)}</option>`).join("")}</select><div id="hch"></div>`:`<p class="mut">${tr("histH")}</p>`;
+  if(names.length){const draw=()=>$("hch").innerHTML=chart(m[$("hsel").value]);$("hsel").onchange=draw;draw()}
+  $("hL").innerHTML=A.map(a=>`<div class="sv"><div><b>${a.t==="lab"?"🧪":"💊"} ${new Date(a.d).toLocaleString(lang==="ar"?"ar":"en")}</b><small>${a.rows.length} ${tr(a.t==="lab"?"tests":"meds")}</small></div><div><button class="btn" data-o="${a.id}">${tr("open")}</button> <button class="btn" data-x="${a.id}" aria-label="${tr("del")}">✕</button></div></div>`).join("");
+  $("hL").querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{const a=A.find(x=>x.id==b.dataset.o);document.querySelector(`[data-tab="${a.t}"]`).click();rows[tab]=a.rows;srcs[tab]="loc";$("res").hidden=false;render(true);$("res").scrollIntoView({behavior:"smooth"})});
+  $("hL").querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{HS.set(A.filter(x=>x.id!=b.dataset.x));renderHist()});
+}
+function summaryText(){
+  const R=rows[tab],ix=lang==="ar"?0:1,L=["MedCare — "+(tab==="lab"?(ix?"Lab summary":"ملخص التحاليل"):(ix?"Prescription summary":"ملخص الوصفة")),new Date().toLocaleDateString(lang==="ar"?"ar":"en")];
+  if(tab==="lab")R.forEach(r=>L.push((ix?r.en:r.ar)+": "+vs(r)+" ("+lbl(r)+")"));else R.forEach(r=>L.push([r.name,r.dose,pk(r.freq),pk(r.dur)].filter(Boolean).join(" - ")));
+  const q=[...document.querySelectorAll("#qL li span:last-child")].map((e,i)=>(i+1)+". "+e.textContent);
+  if(q.length)L.push("",tr("qT").replace(/^\S+\s/,""),...q);L.push("",tr("disc"));return L.join("\n")}
+function printHTML(){
+  const R=rows[tab],ix=lang==="ar"?0:1,pf=[prof.age!=null?tr("age")+": "+prof.age:"",prof.sex?(prof.sex==="m"?tr("sexm"):tr("sexf")):""].filter(Boolean).join(" · ");
+  const body=tab==="lab"?`<table><tr>${S.cols[ix].map(c=>`<th>${c}</th>`).join("")}</tr>${R.map(r=>`<tr><td>${esc(ix?r.en:r.ar)}</td><td>${esc(r.q?r.qv:r.value)}</td><td>${esc(r.unit)}</td><td>${esc(pk(r.range))}</td><td>${lbl(r)}</td></tr>`).join("")}</table>`:`<table><tr><th>${tr("sch0")}</th><th>·</th><th>🕒</th><th>📅</th><th>🍽</th></tr>${R.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.dose||"")} ${esc(pk(r.form))}</td><td>${esc(pk(r.freq))}</td><td>${esc(pk(r.dur))}</td><td>${esc(pk(r.ins))}</td></tr>`).join("")}</table>`;
+  const q=[...document.querySelectorAll("#qL li span:last-child")].map(e=>`<li>${esc(e.textContent)}</li>`).join(""),p=[...document.querySelectorAll("#patL li span:last-child")].map(e=>`<li>${esc(e.textContent)}</li>`).join("");
+  return `<h1>MedCare</h1><p>${new Date().toLocaleDateString(lang==="ar"?"ar":"en")}${pf?" — "+esc(pf):""}</p>${body}${p?`<h3>${tr("patT")}</h3><ul>${p}</ul>`:""}${q?`<h3>${tr("qT")}</h3><ol>${q}</ol>`:""}<p><small>${tr("disc")}</small></p><p><b>Designed By Jad Moualla</b></p>`}
+function speak(){try{const s=speechSynthesis;if(s.speaking){s.cancel();return}const R=rows[tab];if(!R.length)return;const ar=lang==="ar";let t;
+  if(tab==="lab"){const n=R.length,ab=R.filter(r=>r.status!=="Normal");t=ar?`تم تحليل ${n} فحصاً. ${n-ab.length} ضمن الطبيعي و${ab.length} خارج الطبيعي. `:`${n} tests analyzed. ${n-ab.length} normal and ${ab.length} abnormal. `;
+    R.filter(r=>critOf(r)).forEach(r=>t+=(ar?"تنبيه حرج: ":"Critical: ")+(ar?r.ar:r.en)+". ");ab.slice(0,8).forEach(r=>t+=(ar?r.ar:r.en)+" "+lbl(r)+". ")}
+  else t=R.map(r=>[r.name,r.dose,pk(r.freq)].filter(Boolean).join(" ")).join(". ");
+  t+=ar?" هذه معلومات للتوعية فقط، راجع طبيبك.":" This is for information only. Please consult your doctor.";
+  const u=new SpeechSynthesisUtterance(t);u.lang=ar?"ar-SA":"en-US";u.rate=.95;s.speak(u)}catch(e){}}
+function icsFile(){
+  const pad=n=>String(n).padStart(2,"0"),d=new Date(),ds=d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate()),H=[8,13,19,22],E=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//MedCare//EN"];
+  rows.rx.forEach((r,ri)=>{const s=slots(r.freq);if(!Array.isArray(s))return;const m=en2(r.dur).match(/(\d+)\s*(day|week|month)/i),days=m?+m[1]*(/week/i.test(m[2])?7:/month/i.test(m[2])?30:1):7;
+    s.forEach((on,k)=>{if(on)E.push("BEGIN:VEVENT","UID:mc"+Date.now()+ri+k+"@medcare","DTSTAMP:"+ds+"T000000","DTSTART:"+ds+"T"+pad(H[k])+"0000","DURATION:PT15M","RRULE:FREQ=DAILY;COUNT="+days,"SUMMARY:💊 "+r.name+(r.dose?" "+r.dose:""),"BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+r.name,"TRIGGER:-PT0M","END:VALARM","END:VEVENT")})});
+  E.push("END:VCALENDAR");const a=document.createElement("a");a.href="data:text/calendar;charset=utf-8,"+encodeURIComponent(E.join("\r\n"));a.download="medcare-schedule.ics";document.body.appendChild(a);a.click();a.remove();toast(tr("icsok"))}
+$("sv").onclick=saveHist;$("spk").onclick=speak;$("ics").onclick=icsFile;
+$("pdf").onclick=()=>{$("pr").innerHTML=printHTML();try{window.print()}catch(e){toast(tr("noprint"))}};
+$("shr").onclick=async()=>{const t=summaryText();try{if(navigator.share){await navigator.share({title:"MedCare",text:t})}else{await navigator.clipboard.writeText(t);toast(tr("copied"))}}catch(e){try{await navigator.clipboard.writeText(t);toast(tr("copied"))}catch(x){toast(tr("noprint"))}}};
+const ZS=[1,1.15,1.3];let zi=+store.get("mc_z")||0;const applyZ=()=>{document.querySelector("main").style.zoom=ZS[zi]};
+$("fz").onclick=()=>{zi=(zi+1)%3;store.set("mc_z",zi);applyZ();toast("A "+Math.round(ZS[zi]*100)+"%")};applyZ();
+try{prof=Object.assign(prof,JSON.parse(store.get("mc_prof")||"{}"))}catch(e){}
+$("age").value=prof.age??"";$("sex").value=prof.sex||"";$("alg").value=prof.allergy||"";
+["age","sex","alg"].forEach(i=>$(i).addEventListener("change",readProf));
+// ===== smart-analysis cooldown: 3 uses, then 2 / 5 / 10 / 30 / 60 minutes
+const CDM=[2,5,10,30,60],cd0=()=>({n:0,lvl:0,until:0,lastUse:0});
+const cds=()=>{try{return Object.assign(cd0(),JSON.parse(store.get("mc_cd")||"{}"))}catch(e){return cd0()}};
+const cdLeft=()=>Math.max(0,cds().until-Date.now()),aiOK=()=>cdLeft()===0;
+function aiUse(){const s=cds(),t=Date.now();if(t-s.lastUse>6*36e5){s.n=0;s.lvl=0}s.lastUse=t;s.n++;if(s.n>=3){s.until=t+CDM[s.lvl]*6e4;s.lvl=Math.min(s.lvl+1,CDM.length-1);s.n=0}store.set("mc_cd",JSON.stringify(s))}
+function cdTick(){const l=cdLeft(),b=$("cdb");b.hidden=l<=0;if(l>0)b.textContent=tr("cdT")+": "+Math.floor(l/6e4)+":"+String(Math.floor(l%6e4/1e3)).padStart(2,"0")+" — "+tr("cdN")}
+setInterval(cdTick,1000);
+lang=store.get("mc_lang")||"ar";
+function dbgBox(){if($("dbg"))return;const b=document.createElement("div");b.className="box";b.innerHTML='<button class="btn p" id="dbg">Test connection</button><pre id="dbo" style="white-space:pre-wrap;direction:ltr;text-align:left;margin:10px 0 0"></pre>';document.querySelector("main").appendChild(b);
+  $("dbg").onclick=async()=>{const o=$("dbo");o.textContent="";for(const m of MODELS){try{const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+m+":generateContent?key="+encodeURIComponent(KEY),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Reply with the word OK"}]}]})});const j=await r.json().catch(()=>({}));o.textContent+=m+" -> HTTP "+r.status+(j.error?" "+String(j.error.message).slice(0,90):"")+"\n"}catch(e){o.textContent+=m+" -> "+e.name+": "+e.message+"\n"}}}}
+let lc=0,lt=0;document.querySelector(".logo").addEventListener("click",()=>{const n=Date.now();lc=n-lt<1500?lc+1:1;lt=n;if(lc>=5)dbgBox()});
+if(location.hash==="#debug")dbgBox();
+$("inp").value=SAMPLE.lab;applyLang();cdTick();
+</script>
+</body>
+</html>
